@@ -1,1 +1,99 @@
-/* You can add global styles to this file, and also import other style files */
+// =============================================================================
+// Forte · global styles entry
+// =============================================================================
+// Import order matters:
+//   1. tokens — all CSS custom properties available everywhere
+//   2. material — depends on Material's @use; theme bound to our palette
+//   3. typography — defines --font-* vars on top of token-loaded :root
+//   4. glass + motion — utility mixins
+//   5. resets and body — at the end so they can use everything above
+// =============================================================================
+
+@use './styles/tokens';
+@use './styles/material';
+@use './styles/typography';
+@use './styles/glass';
+@use './styles/motion';
+
+// ---- Reset (minimal, surgical) -------------------------------------------
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  // Smooth scrolling for anchor jumps from the right-rail TOC.
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+// ---- Body --------------------------------------------------------------
+
+body,
+.forte-body {
+  font: var(--font-body);
+  color: var(--fg-primary);
+  background: var(--bg-page) var(--bg-wash);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  min-height: 100vh;
+}
+
+// ---- Selection ----------------------------------------------------------
+
+::selection {
+  background: var(--c-brand-hi);
+  color: var(--fg-primary);
+}
+
+// ---- Focus ring ---------------------------------------------------------
+// Single global focus style, applied only to keyboard focus.
+
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--c-brand);
+  outline-offset: 2px;
+  border-radius: var(--r-xs);
+}
+
+// ---- Anchors -----------------------------------------------------------
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+// ---- Material Symbols default tuning -----------------------------------
+// We use Material Symbols throughout. Set sensible defaults so any
+// <mat-icon class="material-symbols-rounded"> looks balanced.
+
+.material-symbols-rounded {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+  transition: font-variation-settings var(--dur-base) var(--ease-standard);
+}
+
+.material-symbols-rounded.is-filled {
+  font-variation-settings: 'FILL' 1, 'wght' 500;
+}

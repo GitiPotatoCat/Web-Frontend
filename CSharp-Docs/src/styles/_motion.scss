@@ -1,0 +1,64 @@
+// =============================================================================
+// Motion presets — composable transition shorthands
+// =============================================================================
+// Component SCSS imports specific transition strings instead of writing them
+// inline, so the durations and easings stay consistent across the whole app.
+// =============================================================================
+
+@mixin transition-color {
+    transition:
+        color var(--dur-fast) var(--ease-standard),
+        background-color var(--dur-fast) var(--ease-standard),
+        border-color var(--dur-fast) var(--ease-standard);
+}
+
+@mixin transition-transform {
+    transition: transform var(--dur-base) var(--ease-emphasis);
+}
+
+@mixin transition-elevation {
+    transition:
+        box-shadow var(--dur-base) var(--ease-standard),
+        transform var(--dur-base) var(--ease-emphasis);
+}
+
+@mixin transition-glass {
+    transition:
+        backdrop-filter var(--dur-slow) var(--ease-standard),
+        background var(--dur-slow) var(--ease-standard);
+}
+
+// Keyframes used by route transitions and stagger animations.
+@keyframes forte-fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes forte-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes forte-glow-pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+    }
+
+    50% {
+        box-shadow: 0 0 0 8px rgba(99, 102, 241, 0.18);
+    }
+}

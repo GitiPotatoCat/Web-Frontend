@@ -1,0 +1,243 @@
+:host {
+    display: block;
+    position: sticky;
+    top: var(--header-h);
+    height: calc(100vh - var(--header-h));
+    width: var(--sidenav-w-collapsed);
+    flex: none;
+    z-index: var(--z-sidenav);
+    // Width is animated when expanded — the trick is to let the dock
+    // OVERLAY the page on expansion rather than push content. We achieve
+    // that by keeping the host width fixed and growing only .sidenav-inner.
+}
+
+.sidenav-inner {
+    height: 100%;
+    width: var(--sidenav-w-collapsed);
+    padding: var(--space-4) var(--space-2);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    border-top: 0;
+    border-right: 0.5px solid var(--border);
+    border-bottom: 0;
+    border-left: 0;
+    overflow: hidden;
+    transition:
+        width var(--dur-base) var(--ease-emphasis),
+        box-shadow var(--dur-base) var(--ease-emphasis);
+}
+
+:host(.is-expanded) .sidenav-inner {
+    width: var(--sidenav-w);
+    box-shadow: var(--shadow-2);
+}
+
+// ---- Dock list ---------------------------------------------------------
+
+.dock {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    flex: 1 1 auto;
+}
+
+.dock-item {
+    position: relative;
+}
+
+// ---- The button itself --------------------------------------------------
+
+.dock-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    background: transparent;
+    border: 0;
+    border-radius: var(--r-md);
+    color: var(--fg-muted);
+    cursor: pointer;
+    text-align: left;
+    font: var(--font-label);
+    transition:
+        background var(--dur-fast) var(--ease-standard),
+        color var(--dur-fast) var(--ease-standard);
+
+    &:hover,
+    &:focus-visible {
+        background: var(--bg-raised);
+        color: var(--fg-primary);
+    }
+}
+
+// Coloured icon — picks up the namespace hue per data-ns attribute.
+.dock-item[data-ns='primitive'] .dock-icon {
+    color: var(--ns-primitive);
+}
+
+.dock-item[data-ns='generic'] .dock-icon {
+    color: var(--ns-generic);
+}
+
+.dock-item[data-ns='legacy'] .dock-icon {
+    color: var(--ns-legacy);
+}
+
+.dock-item[data-ns='concurrent'] .dock-icon {
+    color: var(--ns-concurrent);
+}
+
+.dock-item[data-ns='immutable'] .dock-icon {
+    color: var(--ns-immutable);
+}
+
+.dock-icon {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: var(--r-md);
+    background: transparent;
+    flex: none;
+    transition: background var(--dur-fast) var(--ease-standard);
+
+    // The SVG inside uses currentColor — this is what tints them.
+    img {
+        display: block;
+        filter: none;
+    }
+}
+
+.dock-btn:hover .dock-icon,
+.dock-btn:focus-visible .dock-icon {
+    background: var(--bg-surface);
+}
+
+// ---- Expanding label ---------------------------------------------------
+
+.dock-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    flex: 1 1 auto;
+    min-width: 0;
+
+    // Hidden when collapsed — opacity + width transitions feel smoother
+    // than display:none toggles, and they're keyboard-accessible because
+    // `visibility: hidden` is what actually removes them from the focus tree.
+    opacity: 0;
+    visibility: hidden;
+    white-space: nowrap;
+    transition:
+        opacity var(--dur-fast) var(--ease-standard) 0ms,
+        visibility 0ms linear var(--dur-fast);
+}
+
+:host(.is-expanded) .dock-label {
+    opacity: 1;
+    visibility: visible;
+    // When expanding, swap the delays so opacity ramps up after width is gone.
+    transition:
+        opacity var(--dur-fast) var(--ease-standard) 80ms,
+        visibility 0ms linear 0ms;
+}
+
+.dock-label-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dock-label-count {
+    font: var(--font-mono-meta);
+    letter-spacing: 0.04em;
+    color: var(--fg-subtle);
+    padding: 1px 6px;
+    background: var(--bg-raised);
+    border-radius: var(--r-pill);
+}
+
+// ---- Hover tooltip (only when collapsed) -------------------------------
+
+.dock-tooltip {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + var(--space-2));
+    transform: translateY(-50%) translateX(-4px);
+    padding: 4px 10px;
+    font: var(--font-mono-meta);
+    letter-spacing: 0.04em;
+    color: var(--fg-primary);
+    background: var(--bg-surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--r-sm);
+    box-shadow: var(--shadow-2);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition:
+        opacity var(--dur-fast) var(--ease-standard),
+        transform var(--dur-fast) var(--ease-standard);
+    z-index: var(--z-popover);
+}
+
+// Tooltip on hover, but only while the dock is collapsed.
+:host(:not(.is-expanded)) .dock-item:hover .dock-tooltip,
+:host(:not(.is-expanded)) .dock-item:focus-within .dock-tooltip {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}
+
+// ---- Footer mark -------------------------------------------------------
+
+.dock-foot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-3) 0;
+    flex: none;
+}
+
+.dock-foot-rule {
+    flex: none;
+    width: 14px;
+    height: 0.5px;
+    background: var(--border);
+    transition: width var(--dur-base) var(--ease-emphasis);
+}
+
+:host(.is-expanded) .dock-foot-rule {
+    width: 32px;
+}
+
+.dock-foot-mark {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--bg-raised);
+    border: 0.5px solid var(--border);
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 4px;
+        border-radius: 50%;
+        background: var(--grad-brand);
+    }
+}
+
+// ---- Hide on narrow screens -------------------------------------------
+// We'll add a Material drawer-mode for mobile in step 6. For step 2, we
+// just hide the dock under 720px so the layout doesn't break.
+@media (max-width: 720px) {
+    :host {
+        display: none;
+    }
+}

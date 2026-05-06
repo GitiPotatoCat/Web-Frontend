@@ -1,0 +1,181 @@
+:host {
+    display: block;
+    position: sticky;
+    top: 0;
+    z-index: var(--z-header);
+}
+
+.app-header {
+    height: var(--header-h);
+    border-bottom: 0.5px solid var(--border);
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+}
+
+.header-inner {
+    max-width: var(--layout-max);
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--space-6);
+}
+
+// ---- Brand --------------------------------------------------------------
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    text-decoration: none;
+    padding: 4px 8px;
+    margin-left: -8px;
+    border-radius: var(--r-md);
+    transition: background var(--dur-fast) var(--ease-standard);
+
+    &:hover {
+        background: var(--bg-raised);
+    }
+
+    .brand-mark {
+        transition: transform var(--dur-base) var(--ease-spring);
+    }
+
+    &:hover .brand-mark {
+        transform: rotate(-6deg);
+    }
+}
+
+.brand-name {
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    // Falls back via .text-grad-brand if background-clip not supported.
+}
+
+// ---- Search trigger -----------------------------------------------------
+
+.search-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    width: 100%;
+    max-width: 480px;
+    padding: 8px 10px 8px 14px;
+    margin: 0 auto;
+    font: var(--font-body-sm);
+    color: var(--fg-subtle);
+    background: var(--bg-raised);
+    border: 0.5px solid var(--border);
+    border-radius: var(--r-md);
+    cursor: pointer;
+    transition:
+        color var(--dur-fast) var(--ease-standard),
+        background var(--dur-fast) var(--ease-standard),
+        border-color var(--dur-fast) var(--ease-standard),
+        box-shadow var(--dur-fast) var(--ease-standard);
+
+    &:hover {
+        color: var(--fg-primary);
+        background: var(--bg-surface);
+        border-color: var(--c-brand-soft);
+        box-shadow: 0 0 0 3px var(--c-brand-hi);
+    }
+
+    .material-symbols-rounded {
+        font-size: 18px;
+    }
+
+    .search-trigger-label {
+        flex: 1 1 auto;
+        text-align: left;
+        color: var(--fg-subtle);
+    }
+
+    .search-trigger-kbd {
+        display: inline-flex;
+        gap: 2px;
+        flex: none;
+
+        kbd {
+            font: var(--font-mono-meta);
+            color: var(--fg-subtle);
+            background: var(--bg-surface);
+            border: 0.5px solid var(--border);
+            border-radius: var(--r-xs);
+            padding: 1px 5px;
+            min-width: 18px;
+            text-align: center;
+        }
+    }
+}
+
+// ---- Action buttons -----------------------------------------------------
+
+.header-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+}
+
+.icon-btn {
+    display: inline-grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    color: var(--fg-muted);
+    border: 0;
+    border-radius: var(--r-md);
+    cursor: pointer;
+    transition:
+        color var(--dur-fast) var(--ease-standard),
+        background var(--dur-fast) var(--ease-standard);
+
+    .material-symbols-rounded {
+        font-size: 20px;
+    }
+
+    &:hover:not(:disabled) {
+        color: var(--c-brand);
+        background: var(--c-brand-bg);
+    }
+
+    &:disabled {
+        color: var(--fg-faint);
+        cursor: not-allowed;
+    }
+}
+
+// ---- Responsive ---------------------------------------------------------
+
+@media (max-width: 720px) {
+
+    .search-trigger-label,
+    .search-trigger-kbd {
+        display: none;
+    }
+
+    .search-trigger {
+        width: auto;
+        max-width: none;
+        justify-self: end;
+        padding: 8px 10px;
+    }
+
+    .header-inner {
+        grid-template-columns: auto 1fr auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-inner {
+        padding: 0 var(--space-4);
+    }
+
+    .brand-name {
+        display: none;
+    }
+}

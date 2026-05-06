@@ -1,0 +1,55 @@
+<footer class="app-footer" role="contentinfo">
+
+    <!-- Top hairline + eyebrow -->
+    <div class="footer-eyebrow" aria-hidden="true">
+        <span class="footer-eyebrow-rule"></span>
+        <span class="eyebrow">End of reference</span>
+        <span class="footer-eyebrow-rule"></span>
+    </div>
+
+    <div class="footer-inner">
+
+        <!-- Brand block -->
+        <a class="footer-brand" routerLink="/" aria-label="Forte — home">
+            <img src="assets/brand/forte-mark.svg" alt="" width="24" height="24" />
+            <span class="footer-brand-name fr-display-s text-grad-brand">Forte</span>
+        </a>
+
+        <p class="footer-tagline">
+            The C# reference, played in full —
+            <span class="footer-tagline-soft">
+                distilled from Microsoft Learn, kept deliberately short.
+            </span>
+        </p>
+
+        <!-- Signature row -->
+        <div class="footer-sig">
+            <div class="footer-sig-left mono-meta">
+                .NET 10 · C# 14 · 34 structures
+            </div>
+
+            <div class="footer-sig-mark" aria-hidden="true">
+                <span class="footer-sig-rule"></span>
+                <span class="footer-sig-dot"></span>
+                <span class="footer-sig-rule"></span>
+            </div>
+
+            <div class="footer-sig-right">
+
+                <a class="footer-author"
+                [href]="authorUrl"
+                target="_blank"
+                rel="author noopener"
+                [title]="'Open ' + authorName + '\u2019s profile in a new tab'">
+                <span class="footer-author-label">By</span>
+                <span class="footer-author-name">{{ authorName }}</span>
+                </a>
+
+                <span class="footer-copy" [attr.aria-label]="'Copyright ' + year">
+                    <span class="footer-copy-c" aria-hidden="true">C</span>
+                    <span class="footer-copy-year">{{ year }}</span>
+                </span>
+            </div>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,214 @@
+// =============================================================================
+// Forte · Aurora theme tokens
+// =============================================================================
+// All design tokens live here as CSS custom properties. They are bound to
+// :root so every component can read them without importing anything; theming
+// (light/dark) flips the values, not the variable names.
+//
+// Naming convention:
+//   --c-*       color
+//   --bg-*      background fills
+//   --fg-*      foreground / text
+//   --border-*  hairlines and dividers
+//   --ns-*      namespace accent colors
+//   --grad-*    gradients (the Aurora signature)
+//   --shadow-*  elevation
+//   --r-*       radius
+//   --space-*   spacing scale
+//   --dur-*     animation durations
+//   --ease-*    timing functions
+// =============================================================================
+
+:root {
+    // ---- Aurora signature gradient ----
+    // The brand's defining visual element. Used on the wordmark, hero titles,
+    // and CTAs. Two stops, 135deg, indigo → violet.
+    --grad-brand: linear-gradient(135deg, #6366F1 0%, #A855F7 100%);
+    --grad-brand-soft: linear-gradient(135deg, #818CF8 0%, #C084FC 100%);
+
+    // ---- Backdrop wash (the canvas) ----
+    // Two soft radial gradients painted onto the body in opposite corners.
+    // They are subtle enough to read as "warmth," not as a feature.
+    --bg-wash:
+        radial-gradient(at 20% 0%, rgba(238, 240, 255, 0.6) 0%, transparent 50%),
+        radial-gradient(at 80% 100%, rgba(244, 236, 255, 0.5) 0%, transparent 50%);
+
+    // ---- Layered surfaces ----
+    --bg-page: #FBFBFE;
+    --bg-surface: #FFFFFF;
+    --bg-raised: #F4F4FA;
+    --bg-sunken: #F0F0F7;
+    --bg-code: #14142B; // Always dark — code reads better that way.
+
+    // ---- Glass surface (used on header, sidenav, command palette, popovers) ----
+    --bg-glass: rgba(255, 255, 255, 0.72);
+    --bg-glass-strong: rgba(255, 255, 255, 0.85);
+    --bg-glass-blur: blur(12px) saturate(1.4);
+
+    // ---- Borders ----
+    --border: #E7E7F0;
+    --border-strong: #D4D4DE;
+    --border-soft: #F0F0F5;
+
+    // ---- Text ----
+    --fg-primary: #0A0A1F;
+    --fg-muted: #5A5A75;
+    --fg-subtle: #9090A8;
+    --fg-faint: #B8B8C8;
+    --fg-on-grad: #FFFFFF; // text used on top of --grad-brand
+
+    // ---- Brand ----
+    --c-brand: #6366F1;
+    --c-brand-soft: #818CF8;
+    --c-brand-bg: #EEF0FF;
+    --c-brand-hi: rgba(99, 102, 241, 0.16);
+
+    // ---- Semantic accents (rare; use sparingly) ----
+    --c-success: #10B981;
+    --c-warn: #F59E0B;
+    --c-danger: #EF4444;
+    --c-info: #06B6D4;
+
+    // ---- Namespace pip colors ----
+    --ns-primitive: #6366F1;
+    --ns-primitive-bg: #EEF0FF;
+    --ns-generic: #A855F7;
+    --ns-generic-bg: #F5ECFE;
+    --ns-legacy: #94A3B8;
+    --ns-legacy-bg: #F1F5F9;
+    --ns-concurrent: #06B6D4;
+    --ns-concurrent-bg: #ECFEFF;
+    --ns-immutable: #F472B6;
+    --ns-immutable-bg: #FDF2F8;
+
+    // ---- Elevation ----
+    // Soft, layered shadows. Two-stop technique: a tight shadow for definition
+    // plus a wide diffuse shadow for the lift.
+    --shadow-1: 0 1px 2px rgba(10, 10, 31, 0.04),
+        0 1px 3px rgba(10, 10, 31, 0.03);
+    --shadow-2: 0 2px 6px rgba(10, 10, 31, 0.04),
+        0 8px 24px rgba(10, 10, 31, 0.06);
+    --shadow-3: 0 4px 12px rgba(10, 10, 31, 0.06),
+        0 16px 48px rgba(10, 10, 31, 0.10);
+    --shadow-pop: 0 12px 32px rgba(99, 102, 241, 0.18),
+        0 2px 6px rgba(10, 10, 31, 0.08);
+
+    // ---- Radii ----
+    --r-xs: 4px;
+    --r-sm: 6px;
+    --r-md: 10px;
+    --r-lg: 14px;
+    --r-xl: 20px;
+    --r-2xl: 28px;
+    --r-pill: 999px;
+
+    // ---- Spacing scale (4px base) ----
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-10: 40px;
+    --space-12: 48px;
+    --space-16: 64px;
+    --space-20: 80px;
+
+    // ---- Layout ----
+    --layout-max: 1280px;
+    --content-max: 760px;
+    --sidenav-w: 260px;
+    --sidenav-w-collapsed: 64px;
+    --header-h: 60px;
+    --rail-w: 240px; // right-side TOC width
+
+    // ---- Motion ----
+    --dur-instant: 80ms;
+    --dur-fast: 140ms;
+    --dur-base: 220ms;
+    --dur-slow: 380ms;
+    --dur-cinema: 600ms;
+
+    --ease-standard: cubic-bezier(0.22, 0.61, 0.36, 1); // Material standard
+    --ease-emphasis: cubic-bezier(0.16, 1.0, 0.3, 1.0); // overshoot-friendly
+    --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    // ---- Z-index scale ----
+    --z-base: 0;
+    --z-rail: 10;
+    --z-sidenav: 20;
+    --z-header: 30;
+    --z-popover: 40;
+    --z-modal: 50;
+    --z-toast: 60;
+}
+
+// =============================================================================
+// Dark mode (Aurora night)
+// =============================================================================
+// Triggered by data-theme="dark" on <html>. The no-flash boot script in
+// index.html sets this before Angular boots so we never flash the wrong mode.
+
+:root[data-theme='dark'] {
+    --grad-brand: linear-gradient(135deg, #818CF8 0%, #C084FC 100%);
+    --grad-brand-soft: linear-gradient(135deg, #6366F1 0%, #A855F7 100%);
+
+    --bg-wash:
+        radial-gradient(at 20% 0%, rgba(36, 36, 64, 0.6) 0%, transparent 50%),
+        radial-gradient(at 80% 100%, rgba(48, 32, 72, 0.55) 0%, transparent 50%);
+
+    --bg-page: #0B0B14;
+    --bg-surface: #14142B;
+    --bg-raised: #1A1A35;
+    --bg-sunken: #0E0E1F;
+    --bg-code: #08081A;
+
+    --bg-glass: rgba(20, 20, 43, 0.65);
+    --bg-glass-strong: rgba(20, 20, 43, 0.85);
+
+    --border: #25253A;
+    --border-strong: #34344E;
+    --border-soft: #1E1E32;
+
+    --fg-primary: #F2F0FF;
+    --fg-muted: #A2A0BD;
+    --fg-subtle: #707090;
+    --fg-faint: #4A4A65;
+
+    --c-brand: #818CF8;
+    --c-brand-bg: #1E1B4B;
+    --c-brand-hi: rgba(129, 140, 248, 0.20);
+
+    --ns-primitive: #818CF8;
+    --ns-primitive-bg: #1E1B4B;
+    --ns-generic: #C084FC;
+    --ns-generic-bg: #2A1B40;
+    --ns-legacy: #94A3B8;
+    --ns-legacy-bg: #1E2533;
+    --ns-concurrent: #22D3EE;
+    --ns-concurrent-bg: #0B2B33;
+    --ns-immutable: #F9A8D4;
+    --ns-immutable-bg: #2C1428;
+
+    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.3),
+        0 1px 3px rgba(0, 0, 0, 0.2);
+    --shadow-2: 0 2px 6px rgba(0, 0, 0, 0.35),
+        0 8px 24px rgba(0, 0, 0, 0.45);
+    --shadow-3: 0 4px 12px rgba(0, 0, 0, 0.40),
+        0 16px 48px rgba(0, 0, 0, 0.55);
+    --shadow-pop: 0 12px 32px rgba(129, 140, 248, 0.30),
+        0 2px 6px rgba(0, 0, 0, 0.50);
+}
+
+// Reduced motion — flatten all our durations.
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --dur-instant: 0ms;
+        --dur-fast: 0ms;
+        --dur-base: 0ms;
+        --dur-slow: 0ms;
+        --dur-cinema: 0ms;
+    }
+}

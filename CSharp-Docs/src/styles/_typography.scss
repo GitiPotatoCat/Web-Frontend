@@ -1,0 +1,101 @@
+// =============================================================================
+// Forte typography
+// =============================================================================
+// Three faces, three jobs:
+//   Geist          — UI (body, nav, tables, buttons)
+//   Fraunces ital. — Display (wordmark, hero titles, editorial italics)
+//   JetBrains Mono — Code, type names, eyebrows, metadata, kbd
+//
+// We expose CSS custom properties for the type scale and a small set of
+// utility classes that components can opt into. Components are free to use
+// the variables directly via font: var(--font-h2) when they need precision.
+// =============================================================================
+
+:root {
+    // Display — Fraunces italic with optical-size + softness axes set
+    --font-display-xl: 500 64px / 1.05 'Fraunces', Georgia, serif;
+    --font-display-l: 500 48px / 1.10 'Fraunces', Georgia, serif;
+    --font-display-m: 500 32px / 1.20 'Fraunces', Georgia, serif;
+    --font-display-s: 500 24px / 1.25 'Fraunces', Georgia, serif;
+
+    // UI — Geist
+    --font-h1: 600 28px / 1.2 'Geist', system-ui, sans-serif;
+    --font-h2: 500 18px / 1.4 'Geist', system-ui, sans-serif;
+    --font-h3: 500 15px / 1.4 'Geist', system-ui, sans-serif;
+    --font-body: 400 14px / 1.65 'Geist', system-ui, sans-serif;
+    --font-body-sm: 400 13px / 1.65 'Geist', system-ui, sans-serif;
+    --font-label: 500 12px / 1.4 'Geist', system-ui, sans-serif;
+    --font-eyebrow: 500 10.5px / 1.4 'Geist', system-ui, sans-serif;
+
+    // Code — JetBrains Mono
+    --font-code: 400 13px / 1.7 'JetBrains Mono', ui-monospace, monospace;
+    --font-code-sm: 400 12px / 1.6 'JetBrains Mono', ui-monospace, monospace;
+    --font-mono-meta: 400 10.5px / 1.4 'JetBrains Mono', ui-monospace, monospace;
+}
+
+// ---- Variable-axis tuning -------------------------------------------------
+// Fraunces has a soft-axis we lean into for the hero. Larger optical sizes
+// get more contrast and softer terminals — set per-class to match the size.
+
+.fr-display-xl {
+    font: var(--font-display-xl);
+    font-style: italic;
+    font-variation-settings: 'opsz' 144, 'SOFT' 50;
+    letter-spacing: -0.025em;
+}
+
+.fr-display-l {
+    font: var(--font-display-l);
+    font-style: italic;
+    font-variation-settings: 'opsz' 96, 'SOFT' 50;
+    letter-spacing: -0.02em;
+}
+
+.fr-display-m {
+    font: var(--font-display-m);
+    font-style: italic;
+    font-variation-settings: 'opsz' 64, 'SOFT' 40;
+    letter-spacing: -0.015em;
+}
+
+.fr-display-s {
+    font: var(--font-display-s);
+    font-style: italic;
+    font-variation-settings: 'opsz' 36, 'SOFT' 30;
+    letter-spacing: -0.01em;
+}
+
+// ---- Eyebrow + mono meta — used on every page for labels ------------------
+
+.eyebrow {
+    font: var(--font-eyebrow);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+}
+
+.mono-meta {
+    font: var(--font-mono-meta);
+    letter-spacing: 0.04em;
+    color: var(--fg-muted);
+}
+
+// ---- Brand-gradient text (used on wordmark + hero accents) ----------------
+// background-clip the brand gradient onto the text glyphs themselves.
+// Falls back to flat brand color on browsers without -webkit-background-clip.
+
+.text-grad-brand {
+    background: var(--grad-brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+@supports not (background-clip: text) {
+    .text-grad-brand {
+        color: var(--c-brand);
+    }
+}

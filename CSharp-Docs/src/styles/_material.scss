@@ -1,0 +1,49 @@
+// =============================================================================
+// Angular Material — M3 theme bound to our Aurora palette
+// =============================================================================
+// We define a custom M3 theme using Material's @use 'mat' helpers, then
+// apply it as the default theme. We tighten density to -2 so Material
+// components feel docs-appropriate, not phone-app-spacious.
+// =============================================================================
+
+@use '@angular/material' as mat;
+
+// Custom palettes built around our Aurora hues. Material expects the full
+// 50–900 ramp; we let it generate the ramp from a single seed color via
+// define-theme()'s tonal-palette generation, then override key tones.
+
+html {
+    @include mat.theme((color: (primary: mat.$violet-palette,
+                tertiary: mat.$magenta-palette,
+            ),
+            typography: Geist,
+            density: -2,
+        ));
+
+    // Explicitly bind color-scheme so the browser picks correct UA defaults
+    // (form controls, scrollbar) per theme.
+    color-scheme: light;
+}
+
+html[data-theme='dark'] {
+    @include mat.theme((color: (primary: mat.$violet-palette,
+                tertiary: mat.$magenta-palette,
+                theme-type: dark,
+            ),
+            typography: Geist,
+            density: -2,
+        ));
+    color-scheme: dark;
+}
+
+// A few targeted overrides so Material's defaults align with our tokens.
+// We don't restyle Material components wholesale — we trust the M3 system —
+// but a couple of tokens look better when bound to our values directly.
+:root {
+    // Make Material ripples use the brand color subtly.
+    --mat-ripple-color: rgba(99, 102, 241, 0.12);
+}
+
+:root[data-theme='dark'] {
+    --mat-ripple-color: rgba(129, 140, 248, 0.18);
+}

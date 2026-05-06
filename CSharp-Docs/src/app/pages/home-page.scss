@@ -1,0 +1,48 @@
+:host {
+    display: block;
+}
+
+.home-placeholder {
+    max-width: var(--content-max);
+    margin: 0 auto;
+    padding: var(--space-12) var(--space-6) var(--space-16);
+}
+
+.home-placeholder h1 {
+    margin: var(--space-2) 0 var(--space-6);
+    max-width: 16ch;
+}
+
+.placeholder-lead {
+    font: var(--font-body);
+    color: var(--fg-muted);
+    max-width: 60ch;
+
+    strong {
+        color: var(--fg-primary);
+        font-weight: 500;
+    }
+}
+
+.placeholder-stage {
+    margin-top: var(--space-12);
+    padding: var(--space-12) var(--space-6);
+    background: var(--bg-surface);
+    border: 1px dashed var(--border);
+    border-radius: var(--r-xl);
+    text-align: center;
+    color: var(--fg-subtle);
+
+    .material-symbols-rounded {
+        font-size: 40px;
+        color: var(--c-brand-soft);
+        margin-bottom: var(--space-2);
+    }
+
+    p {
+        margin: 0;
+        font: var(--font-label);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+}

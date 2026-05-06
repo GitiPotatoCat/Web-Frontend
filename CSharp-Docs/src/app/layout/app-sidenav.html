@@ -1,0 +1,29 @@
+<nav class="sidenav-inner glass" aria-label="Namespace navigation">
+
+    <ul class="dock" role="list">
+        @for (g of groups; track g.id) {
+        <li class="dock-item" [attr.data-ns]="g.id">
+            <button type="button" class="dock-btn" [attr.aria-label]="g.label">
+                <span class="dock-icon" aria-hidden="true">
+                    <img [src]="'assets/icons/' + g.icon + '.svg'" alt="" width="22" height="22" />
+                </span>
+                <span class="dock-label">
+                    <span class="dock-label-text">{{ g.label }}</span>
+                    <span class="dock-label-count">{{ g.count }}</span>
+                </span>
+            </button>
+
+            <!-- Tooltip shown only when collapsed; CSS handles visibility. -->
+            <span class="dock-tooltip" role="tooltip">{{ g.label }}</span>
+        </li>
+        }
+    </ul>
+
+    <!-- Bottom mark — purely cosmetic, separates dock from page edge. -->
+    <div class="dock-foot" aria-hidden="true">
+        <span class="dock-foot-rule"></span>
+        <span class="dock-foot-mark"></span>
+        <span class="dock-foot-rule"></span>
+    </div>
+
+</nav>

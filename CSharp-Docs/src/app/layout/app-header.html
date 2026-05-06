@@ -1,0 +1,35 @@
+<header class="app-header glass-strong" role="banner">
+    <div class="header-inner">
+
+        <!-- Brand ----------------------------------------------------------- -->
+        <a class="brand" routerLink="/" aria-label="Forte — home">
+            <img class="brand-mark" src="assets/brand/forte-mark.svg" alt="" width="28" height="28" />
+            <span class="brand-name fr-display-s text-grad-brand">Forte</span>
+        </a>
+
+        <!-- Search trigger -------------------------------------------------- -->
+        <button class="search-trigger" type="button" (click)="openCommandPalette()" aria-label="Open search"
+            title="Search the reference">
+            <span class="material-symbols-rounded">search</span>
+            <span class="search-trigger-label">Search the reference&hellip;</span>
+            <span class="search-trigger-kbd">
+                <kbd>{{ isMac ? '⌘' : 'Ctrl' }}</kbd>
+                <kbd>K</kbd>
+            </span>
+        </button>
+
+        <!-- Right-side actions ---------------------------------------------- -->
+        <div class="header-actions">
+            <button type="button" class="icon-btn" (click)="cycleTheme()" [attr.aria-label]="'Theme: ' + theme.mode()"
+                [title]="'Theme: ' + theme.mode() + ' (click to cycle)'">
+                <span class="material-symbols-rounded">{{ themeIcon() }}</span>
+            </button>
+
+            <button type="button" class="icon-btn" disabled aria-label="Keyboard shortcuts (coming in step 5)"
+                title="Shortcuts arrive in step 5">
+                <span class="material-symbols-rounded">keyboard</span>
+            </button>
+        </div>
+
+    </div>
+</header>
