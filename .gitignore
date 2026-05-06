@@ -1,0 +1,154 @@
+# ============================================
+# Angular v21 - .gitignore
+# With VS Code & Visual Studio 2026 Community
+# ============================================
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Angular build output
+dist/
+dist-ssr/
+out-tsc/
+
+# Angular cache
+.angular/
+.angular/cache/
+
+# Compiled TypeScript
+*.tsbuildinfo
+
+# Node modules
+node_modules/
+
+# Environment files (optional - uncomment if needed)
+# src/environments/environment*.ts
+
+
+# ============================================
+# Visual Studio Code
+# ============================================
+.vscode/
+.history/
+*.code-workspace
+
+# VS Code Extensions Local
+.vscode-test/
+
+# ============================================
+# Visual Studio 2026 Community (future-proof)
+# ============================================
+.vs/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# MonoDevelop/Xamarin Studio
+*.userprefs
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+
+# Visual Studio project files
+*_i.c
+*_p.c
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pdb
+*.ipdb
+*.iobj
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.rsp
+
+# Visual Studio cache
+*.cache
+*.dbmdl
+*.dbproj.schemaview
+
+# Visual Studio Generated files
+Generated\ Files/
+
+# Backup & Auto Recover
+*.bak
+*.backup
+*.autosave
+
+# Test results
+[Tt]est[Rr]esult*
+[Bb]uild[Ll]og.*
+
+# NUnit
+*.VisualState.xml
+TestResult.xml
+
+# Coverage results
+coverage/
+coverage-final.json
+*.coverage
+*.coveragexml
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+*.nuget.props
+*.nuget.targets
+
+# Microsoft Azure
+*.azurePubxml
+*.Publish.xml
+
+# IIS Express
+iisexpress/
+*.vs/
+.vs/
+
+# Rider / JetBrains (optional)
+.idea/
+
+# ============================================
+# OS-specific
+# ============================================
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# Local environment variables
+.env
+.env.local
+.env.*.local
+
+# Lock Files (optional — uncomment if needed)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# Archives
+*.tgz
