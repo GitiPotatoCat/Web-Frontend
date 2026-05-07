@@ -1,0 +1,109 @@
+@if (palette.isOpen()) {
+<div class="cp-scrim" (click)="onScrimClick()" [@palette] aria-hidden="true"></div>
+
+<div class="cp-stage" [@palette]>
+    <div class="cp-panel glass-strong" role="dialog" aria-modal="true" aria-label="Search the reference" [@panel]
+        (click)="$event.stopPropagation()">
+
+        <!-- Input row -->
+        <div class="cp-input-row">
+            <span class="material-symbols-rounded cp-icon">search</span>
+            <input #inputEl type="search" class="cp-input"
+                placeholder="Search 34 structures — try “map”, “fifo”, “immutable”…" aria-label="Search query"
+                autocomplete="off" spellcheck="false" [value]="search.query()"
+                (input)="onQueryInput($any($event.target).value)" (keydown)="onInputKey($event)" />
+            <button type="button" class="cp-esc" (click)="palette.close()" aria-label="Close (Esc)">
+                <kbd>Esc</kbd>
+            </button>
+        </div>
+
+        <!-- Body — recents OR results OR empty -->
+        @if (!hasQuery()) {
+
+        @if (recent.recent().length) {
+        <div class="cp-section">
+            <div class="cp-section-head">
+                <span class="eyebrow">Recent</span>
+                <button type="button" class="cp-clear" (click)="recent.clear()">
+                    Clear
+                </button>
+            </div>
+            <ul class="cp-list" role="listbox">
+                @for (q of recent.recent(); track q) {
+                <li class="cp-row cp-recent" (click)="reuseRecent(q)">
+                    <span class="material-symbols-rounded cp-row-icon">history</span>
+                    <span class="cp-row-text">{{ q }}</span>
+                    <button type="button" class="cp-row-remove" (click)="removeRecent($event, q)"
+                        aria-label="Remove from recent">
+                        <span class="material-symbols-rounded">close</span>
+                    </button>
+                </li>
+                }
+            </ul>
+        </div>
+        } @else {
+        <div class="cp-empty">
+            <p class="eyebrow">Search the reference</p>
+            <p class="cp-empty-lead">
+                Type a structure name, an alias, or a concept — <code>map</code>,
+                <code>fifo</code>, <code>immutable</code>, <code>thread-safe</code>.
+            </p>
+        </div>
+        }
+
+        } @else if (search.results().length) {
+
+        <div class="cp-section">
+            <div class="cp-section-head">
+                <span class="eyebrow">
+                    {{ search.results().length }} match{{ search.results().length === 1 ? '' : 'es' }}
+                </span>
+            </div>
+            <ul class="cp-list" role="listbox">
+                @for (row of resultRows(); track row.hit.slug; let i = $index) {
+                <li class="cp-row cp-hit" [class.is-active]="active() === i" [attr.data-ns]="row.hit.namespace"
+                    role="option" [attr.aria-selected]="active() === i" (click)="openHit(row.hit)"
+                    (mouseenter)="active.set(i)">
+                    <span class="cp-row-dot" aria-hidden="true"></span>
+                    <span class="cp-row-name">
+                        @for (seg of row.segments; track $index) {
+                        @if (seg.highlight) {
+                        <mark>{{ seg.text }}</mark>
+                        } @else {
+                        <span>{{ seg.text }}</span>
+                        }
+                        }
+                    </span>
+                    <span class="cp-row-group">{{ row.hit.group }}</span>
+                    <span class="cp-row-enter" aria-hidden="true">↵</span>
+                </li>
+                }
+            </ul>
+        </div>
+
+        } @else {
+
+        <div class="cp-empty">
+            <p class="eyebrow">No match</p>
+            <p class="cp-empty-lead">
+                Nothing matches <code>{{ search.query() }}</code> — try
+                <code>map</code>, <code>fifo</code>, or <code>immutable</code>.
+            </p>
+        </div>
+
+        }
+
+        <!-- Footer hint row -->
+        <div class="cp-foot">
+            <span class="cp-foot-hint"><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+            <span class="cp-foot-hint"><kbd>↵</kbd> open</span>
+            <span class="cp-foot-hint"><kbd>Esc</kbd> close</span>
+            <span class="cp-foot-spacer"></span>
+            <span class="cp-foot-brand">
+                <img src="assets/brand/forte-mark.svg" alt="" width="14" height="14" />
+                Forte
+            </span>
+        </div>
+    </div>
+</div>
+}

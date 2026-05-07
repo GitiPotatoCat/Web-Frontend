@@ -6,6 +6,7 @@ import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
 import { AppHeaderComponent } from './layout/app-header';
 import { AppSidenavComponent } from './layout/app-sidenav';
 import { AppFooterComponent } from './layout/app-footer';
+import { CommandPaletteComponent } from './layout/command-palette.component';
 
 import { routeTransitionAnimation } from './shared/animations/route-transitions';
 
@@ -38,6 +39,7 @@ import { routeTransitionAnimation } from './shared/animations/route-transitions'
         AppHeaderComponent, 
         AppSidenavComponent, 
         AppFooterComponent, 
+        CommandPaletteComponent,  
     ], 
     templateUrl: './app.html',
     styleUrl: './app.scss', 
