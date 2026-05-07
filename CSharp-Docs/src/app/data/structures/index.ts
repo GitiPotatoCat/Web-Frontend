@@ -32,8 +32,20 @@ import { CONCURRENT_STACK_DATA } from './concurrent-stack.data';
 import { CONCURRENT_BAG_DATA } from './concurrent-bag.data';
 import { BLOCKING_COLLECTION_DATA } from './blocking-collection.data';
 
+import { IMMUTABLE_ARRAY_DATA } from './immutable-array.data';
+import { IMMUTABLE_LIST_DATA } from './immutable-list.data'; 
+import { IMMUTABLE_DICTIONARY_DATA } from './immutable-dictionary.data';
+import { IMMUTABLE_SORTED_DICTIONARY_DATA } from './immutable-sorted-dictionary.data';
+import { IMMUTABLE_HASH_SET_DATA } from './immutable-hash-set.data';
+import { IMMUTABLE_SORTED_SET_DATA } from './immutable-sorted-set.data';
+import { IMMUTABLE_QUEUE_DATA } from './immutable-queue.data';
+import { IMMUTABLE_STACK_DATA } from './immutable-stack.data';
+
 /**
- * After step 9d we have 26 of 34 structures authored.
+ * After step 9e all 34 structures are authored. The registry signature
+ * stays Partial<Record<...>> for one more step — 9f tightens it to
+ * Record<Slug, Structure> now that there are no missing entries to
+ * silently allow.
  */
 export const STRUCTURES: Partial<Record<Slug, Structure>> = {
     // Primitive
@@ -69,6 +81,16 @@ export const STRUCTURES: Partial<Record<Slug, Structure>> = {
     'concurrent-stack': CONCURRENT_STACK_DATA,
     'concurrent-bag': CONCURRENT_BAG_DATA,
     'blocking-collection': BLOCKING_COLLECTION_DATA,
+
+    // Immutable
+    'immutable-array': IMMUTABLE_ARRAY_DATA,
+    'immutable-list': IMMUTABLE_LIST_DATA,
+    'immutable-dictionary': IMMUTABLE_DICTIONARY_DATA,
+    'immutable-sorted-dictionary': IMMUTABLE_SORTED_DICTIONARY_DATA,
+    'immutable-hash-set': IMMUTABLE_HASH_SET_DATA,
+    'immutable-sorted-set': IMMUTABLE_SORTED_SET_DATA,
+    'immutable-queue': IMMUTABLE_QUEUE_DATA,
+    'immutable-stack': IMMUTABLE_STACK_DATA,
 } as const;
 
 export function getStructure(slug: Slug): Structure | undefined {
