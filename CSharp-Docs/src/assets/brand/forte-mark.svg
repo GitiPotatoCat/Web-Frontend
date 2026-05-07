@@ -1,47 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Forte">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img"
+  aria-label="Forte">
   <defs>
-    <linearGradient id="fg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#6366F1"/>
-      <stop offset="100%" stop-color="#A855F7"/>
+    <linearGradient id="aurora" x1="0" y1="0" x2="1.1" y2="1.1">
+      <stop offset="0%" stop-color="#6366F1" />
+      <stop offset="50%" stop-color="#A855F7" />
+      <stop offset="100%" stop-color="#EC4899" />
     </linearGradient>
   </defs>
 
-  <!--
-    Sharp (♯) — sits behind the f, muted, marks the C# nod.
-    Two horizontal bars + two vertical bars, slight slant.
-  -->
-  <g opacity="0.32" stroke="url(#fg)" stroke-width="2.2" stroke-linecap="round">
-    <line x1="14" y1="22" x2="36" y2="20"/>
-    <line x1="14" y1="34" x2="36" y2="32"/>
-    <line x1="20" y1="14" x2="20" y2="40"/>
-    <line x1="30" y1="13" x2="30" y2="39"/>
-  </g>
+  <g fill="url(#aurora)">
+    <path
+      d="M42,12 c-8,0 -12,4 -14,10 l-3,10 h9 l-1,4 h-9 l-4,18 c-1.5,4 -4,6 -8,6 c-3,0 -5,-1.5 -5,-3.5 s2,-3.5 4,-3.5 s3,1.5 4,3 l4,-16 h-6 l1,-4 h6 l3,-11 c2,-7 5,-12 10,-12 z" />
 
-  <!--
-    Italic serif lowercase 'f' rendered as a path. The strong vertical
-    stem with curved terminals is the "forte" mark in music notation
-    repurposed as the brand logomark.
-  -->
-  <path
-    d="M 36 12
-       Q 44 10 48 16
-       L 47 21
-       Q 43 17 39 19
-       Q 36 22 35 28
-       L 33 36
-       L 41 36
-       L 40 41
-       L 32 41
-       L 28 56
-       Q 26 60 22 60
-       Q 19 60 19 57
-       Q 19 55 21 54
-       Q 23 53 24 51
-       L 28 41
-       L 22 41
-       L 23 36
-       L 29 36
-       L 31 28
-       Q 33 17 36 12 Z"
-    fill="url(#fg)"/>
+    <path d="M10,25 l28,-2 l0,2 l-28,2 z" fill="#fff" fill-opacity="0.1" />
+    <path d="M10,35 l28,-2 l0,2 l-28,2 z" fill="#fff" fill-opacity="0.1" />
+  </g>
 </svg>
