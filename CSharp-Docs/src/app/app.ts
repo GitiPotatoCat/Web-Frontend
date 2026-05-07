@@ -34,7 +34,7 @@ import { routeTransitionAnimation } from './shared/animations/route-transitions'
  * flips, and the brand wordmark renders. Real layout chrome is step 2.
  */
 @Component({
-    selector: 'app-ds-root',
+    selector: 'app-root',
     standalone: true, 
     imports: [
         RouterOutlet, 
