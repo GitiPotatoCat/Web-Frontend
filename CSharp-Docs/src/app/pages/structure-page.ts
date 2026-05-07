@@ -6,7 +6,9 @@ import {
     transition,
     trigger,
 } from '@angular/animations';
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
+
+import { PageMetaService } from '../core/page-meta.service';
 
 import type { Structure } from '../data/types';
 
@@ -63,6 +65,21 @@ import { SectionTitleComponent } from '../shared/components/section-title.compon
 })
 export class StructurePageComponent {
     readonly structure = input.required<Structure>();
+
+    private readonly pageMeta = inject(PageMetaService);
+
+    constructor() {
+        // Update head tags on every navigation between structure pages. The
+        // effect runs once on mount and again whenever the resolved Structure
+        // changes identity (i.e. a different /s/:slug arrives).
+        effect(() => {
+            const s = this.structure();
+            this.pageMeta.setForPage({
+                title: s.name,
+                description: s.metaDescription,
+            });
+        });
+    }
 
     /**
      * Builds the TOC entries based on which sections are populated in the

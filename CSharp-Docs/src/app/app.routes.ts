@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
 
-import type { Slug } from './data/slugs';
+import { isSlug } from './data/slugs';
 import { getStructure } from './data/structures';
 
 /**
@@ -18,21 +18,15 @@ import { getStructure } from './data/structures';
  * Defined inline as a function so we don't need a separate file.
  */
 function structureResolver(route: ActivatedRouteSnapshot) {
-  const slug = route.paramMap.get('slug') as Slug | null;
   const router = inject(Router);
+  const slug = route.paramMap.get('slug');
 
-  if (!slug) {
+  if (!slug || !isSlug(slug)) {
     router.navigate(['/404']);
     return null;
   }
 
-  const structure = getStructure(slug);
-  if (!structure) {
-    router.navigate(['/404']);
-    return null;
-  }
-
-  return structure;
+  return getStructure(slug);   // returns Structure (no undefined)
 }
 
 export const routes: Routes = [

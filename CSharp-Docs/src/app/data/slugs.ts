@@ -55,3 +55,57 @@ export type Slug =
     | 'immutable-sorted-set'
     | 'immutable-queue'
     | 'immutable-stack';
+
+
+
+
+// At the bottom of slugs.ts, alongside the existing exports:
+
+/**
+ * The closed list of every slug — same shape as the Slug union, available
+ * at runtime for narrowing. If you add a new slug, the as-const guarantees
+ * the union and array stay aligned.
+ */
+export const SLUGS = [
+    'array',
+    'span',
+    'memory',
+    'list',
+    'linked-list',
+    'stack',
+    'queue',
+    'priority-queue',
+    'dictionary',
+    'sorted-dictionary',
+    'sorted-list',
+    'hash-set',
+    'sorted-set',
+    'observable-collection',
+    'array-list',
+    'hashtable',
+    'legacy-stack',
+    'legacy-queue',
+    'legacy-sorted-list',
+    'bit-array',
+    'string-collection',
+    'concurrent-dictionary',
+    'concurrent-queue',
+    'concurrent-stack',
+    'concurrent-bag',
+    'blocking-collection',
+    'immutable-array',
+    'immutable-list',
+    'immutable-dictionary',
+    'immutable-sorted-dictionary',
+    'immutable-hash-set',
+    'immutable-sorted-set',
+    'immutable-queue',
+    'immutable-stack',
+] as const satisfies readonly Slug[];
+
+const SLUG_SET: ReadonlySet<string> = new Set(SLUGS);
+
+/** Type-guard: narrows an arbitrary string to the Slug union. */
+export function isSlug(value: string): value is Slug {
+    return SLUG_SET.has(value);
+}

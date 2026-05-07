@@ -33,7 +33,7 @@ import { CONCURRENT_BAG_DATA } from './concurrent-bag.data';
 import { BLOCKING_COLLECTION_DATA } from './blocking-collection.data';
 
 import { IMMUTABLE_ARRAY_DATA } from './immutable-array.data';
-import { IMMUTABLE_LIST_DATA } from './immutable-list.data'; 
+import { IMMUTABLE_LIST_DATA } from './immutable-list.data';
 import { IMMUTABLE_DICTIONARY_DATA } from './immutable-dictionary.data';
 import { IMMUTABLE_SORTED_DICTIONARY_DATA } from './immutable-sorted-dictionary.data';
 import { IMMUTABLE_HASH_SET_DATA } from './immutable-hash-set.data';
@@ -42,12 +42,20 @@ import { IMMUTABLE_QUEUE_DATA } from './immutable-queue.data';
 import { IMMUTABLE_STACK_DATA } from './immutable-stack.data';
 
 /**
- * After step 9e all 34 structures are authored. The registry signature
- * stays Partial<Record<...>> for one more step — 9f tightens it to
- * Record<Slug, Structure> now that there are no missing entries to
- * silently allow.
+ * The structure registry. Maps each Slug to its page-shaped data.
+ *
+ * The signature is intentionally `Record<Slug, Structure>` (not Partial)
+ * — every Slug in the closed union MUST have a corresponding entry. If
+ * anyone deletes a data file's import here, or forgets to register a new
+ * one, TypeScript will refuse to compile. This is the final architectural
+ * lock: the system can never ship an incomplete registry.
+ *
+ * To add a new structure:
+ *   1. Add the slug to the `Slug` union in src/app/data/slugs.ts
+ *   2. Author src/app/data/structures/{slug}.data.ts
+ *   3. Import and register here — without this third step the build fails
  */
-export const STRUCTURES: Partial<Record<Slug, Structure>> = {
+export const STRUCTURES: Record<Slug, Structure> = {
     // Primitive
     array: ARRAY_DATA,
     span: SPAN_DATA,
@@ -93,12 +101,26 @@ export const STRUCTURES: Partial<Record<Slug, Structure>> = {
     'immutable-stack': IMMUTABLE_STACK_DATA,
 } as const;
 
-export function getStructure(slug: Slug): Structure | undefined {
+/**
+ * Look up a structure by slug. Note the return type:
+ *
+ *   • If the caller passes a value typed as `Slug`, the result is
+ *     unconditionally `Structure` — no nullish handling needed.
+ *
+ *   • The route resolver still receives a plain `string` from the URL,
+ *     which it narrows to Slug via the cast in app.routes.ts; the
+ *     undefined-handling lives there, where it belongs.
+ *
+ * This function exists for the few internal callers that already hold a
+ * Slug-typed value (the chip list, the resolver, future link generators)
+ * and want a guarantee they can dereference without checking.
+ */
+export function getStructure(slug: Slug): Structure {
     return STRUCTURES[slug];
 }
 
 export function listStructures(): ReadonlyArray<Structure> {
-    return Object.values(STRUCTURES) as ReadonlyArray<Structure>;
+    return Object.values(STRUCTURES);
 }
 
 export function listStructuresIn(

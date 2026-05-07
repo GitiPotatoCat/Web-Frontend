@@ -13,10 +13,10 @@ import { getStructure } from '../../data/structures';
  * skip rendering that chip rather than 404-linking. Defensive but quiet.
  */
 @Component({
-    selector: 'forte-chip-list',
-    standalone: true,
-    imports: [RouterLink],
-    template: `
+  selector: 'forte-chip-list',
+  standalone: true,
+  imports: [RouterLink],
+  template: `
     <nav class="chips" aria-label="Related structures">
       @for (chip of resolved(); track chip.slug) {
         
@@ -30,7 +30,7 @@ import { getStructure } from '../../data/structures';
       }
     </nav>
   `,
-    styles: [`
+  styles: [`
     :host { display: block; }
 
     .chips {
@@ -83,23 +83,20 @@ import { getStructure } from '../../data/structures';
       transform: translateX(0);
     }
   `],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChipListComponent {
-    readonly chips = input.required<ReadonlyArray<RelatedChip>>();
+  readonly chips = input.required<ReadonlyArray<RelatedChip>>();
 
-    /** Resolves slugs to display labels and namespace tints. */
-    protected readonly resolved = computed(() =>
-        this.chips()
-            .map(c => {
-                const target = getStructure(c.slug);
-                if (!target) return null;
-                return {
-                    slug: c.slug,
-                    label: c.label ?? target.name,
-                    namespace: target.namespace,
-                };
-            })
-            .filter((x): x is NonNullable<typeof x> => x !== null),
-    );
+  /** Resolves slugs to display labels and namespace tints. */
+  protected readonly resolved = computed(() =>
+    this.chips().map(c => {
+      const target = getStructure(c.slug);
+      return {
+        slug: c.slug,
+        label: c.label ?? target.name,
+        namespace: target.namespace,
+      };
+    }),
+  );
 }

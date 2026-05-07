@@ -107,9 +107,10 @@ export function highlightCsharp(source: string): ReadonlyArray<Token> {
         // Coalesce runs of non-identifier chars into a single punct token to
         // keep the rendered DOM small.
         const start = i;
+        i++;                                       
         while (i < len) {
             const ch = source[i]!;
-            if (/[A-Za-z0-9_"@$/]/.test(ch)) break;
+            if (/[A-Za-z0-9_"@$]/.test(ch)) break;
             if (ch === '/' && source[i + 1] === '/') break;
             i++;
         }

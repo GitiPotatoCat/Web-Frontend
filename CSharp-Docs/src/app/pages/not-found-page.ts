@@ -1,11 +1,12 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { PageMetaService } from '../core/page-meta.service';
 
 @Component({
-    selector: 'app-not-found-page',
-    standalone: true,
-    imports: [RouterLink],
-    template: `
+  selector: 'app-not-found-page',
+  standalone: true,
+  imports: [RouterLink],
+  template: `
     <section class="nf">
       <div class="nf-mark" aria-hidden="true">
         <img src="assets/icons/ns-legacy.svg" alt="" width="96" height="96" />
@@ -27,7 +28,7 @@ import { RouterLink } from '@angular/router';
       </div>
     </section>
   `,
-    styles: [`
+  styles: [`
     :host { display: block; padding: var(--space-16) var(--space-6); }
     .nf {
       max-width: var(--content-max);
@@ -74,6 +75,12 @@ import { RouterLink } from '@angular/router';
     .nf-cta:hover { transform: translateY(-1px); box-shadow: var(--shadow-pop); }
     .nf-cta .material-symbols-rounded { font-size: 18px; }
   `],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NotFoundPageComponent { }
+export class NotFoundPageComponent {
+  private readonly pageMeta = inject(PageMetaService);
+
+  constructor() {
+    this.pageMeta.setForNotFound();
+  }
+}

@@ -1,57 +1,45 @@
 <!doctype html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8">
   <title>Forte — the C# reference, played in full</title>
-  <meta name="description"
-    content="A topic-first reference for every data structure in the .NET 10 BCL — distilled, designed, and played in full." />
 
-  <base href="/" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A topic-first reference for every data structure in the .NET 10 BCL.">
 
-  <!-- Theme color drives mobile address-bar tinting; matches Aurora bg in each mode. -->
-  <meta name="theme-color" content="#FBFBFE" media="(prefers-color-scheme: light)" />
-  <meta name="theme-color" content="#0B0B14" media="(prefers-color-scheme: dark)" />
+  <!-- Theme color matches the brand-tinted glass surface; light/dark variants. -->
+  <meta name="theme-color" content="#f7f6fb" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#13131e" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
 
-  <!-- Favicon — uses the Forte mark we ship in /assets/brand. -->
-  <link rel="icon" type="image/svg+xml" href="assets/brand/forte-mark.svg" />
+  <!-- Open Graph defaults. Per-page tags overwrite at runtime. -->
+  <meta property="og:type"        content="website">
+  <meta property="og:title"       content="Forte — the C# reference">
+  <meta property="og:description" content="A topic-first reference for every data structure in the .NET 10 BCL.">
+  <meta property="og:image"       content="assets/brand/og-card.png">
 
-  <!-- Fonts — preconnect first so the request can race with the CSS. -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
 
-  <!--
-    Three faces, requested with the variable axes we actually use:
-      • Geist — variable weight 300–600
-      • Fraunces — variable weight + opsz + softness, italic
-      • JetBrains Mono — 400, 500
-      • Material Symbols Rounded — variable FILL + wght for the icon hover trick
-  -->
+  <!-- Brand favicon set -->
+  <link rel="icon" type="image/svg+xml" href="assets/brand/forte-mark.svg">
+  <link rel="apple-touch-icon" href="assets/brand/forte-mark-512.png">
+
+  <!-- Fonts: preconnect early, preload the critical face -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style"
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,30..100;1,9..144,300..600,30..100&display=swap">
   <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Geist:wght@300..600&family=Fraunces:ital,opsz,wght,SOFT@1,9..144,300..600,30..100&family=JetBrains+Mono:wght@400;500&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,0..1,0&display=swap" />
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,30..100;1,9..144,300..600,30..100&display=swap">
 
-  <!--
-    No-flash dark mode. This tiny script runs synchronously before
-    Angular boots so the page never flashes the wrong theme. The
-    ThemeService will pick up where this leaves off once the app is alive.
-  -->
-  <script>
-    (function () {
-      try {
-        var stored = localStorage.getItem('forte-theme');
-        var resolved = stored || 'auto';
-        var dark = resolved === 'dark' ||
-          (resolved === 'auto' &&
-            window.matchMedia('(prefers-color-scheme: dark)').matches);
-        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
-      } catch (_) { }
-    })();
-  </script>
+  <!-- Material Symbols (Rounded) -->
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..700,0..1,-50..200&display=swap">
 </head>
 
-<body class="forte-body">
+<body>
   <app-ds-root></app-ds-root>
 </body>
-
 </html>
