@@ -5,6 +5,7 @@ import { NAMESPACES, type NamespaceMeta } from '../namespaces';
 import { ARRAY_DATA } from './array.data';
 import { SPAN_DATA } from './span.data';
 import { MEMORY_DATA } from './memory.data';
+
 import { LIST_DATA } from './list.data';
 import { LINKED_LIST_DATA } from './linked-list.data';
 import { STACK_DATA } from './stack.data';
@@ -17,13 +18,16 @@ import { HASH_SET_DATA } from './hash-set.data';
 import { SORTED_SET_DATA } from './sorted-set.data';
 import { OBSERVABLE_COLLECTION_DATA } from './observable-collection.data';
 
+import { ARRAY_LIST_DATA } from './array-list.data';
+import { HASHTABLE_DATA } from './hashtable.data';
+import { LEGACY_STACK_DATA } from './legacy-stack.data';
+import { LEGACY_QUEUE_DATA } from './legacy-queue.data';
+import { LEGACY_SORTED_LIST_DATA } from './legacy-sorted-list.data';
+import { BIT_ARRAY_DATA } from './bit-array.data';
+import { STRING_COLLECTION_DATA } from './string-collection.data';
+
 /**
- * The registry. Keys are URL slugs; values are page-shaped objects the
- * structure-page component renders.
- *
- * After step 9b we have 14 of 34 structures authored. The signature stays
- * `Partial<Record<Slug, Structure>>` until step 9f, when we tighten it
- * to `Record<Slug, Structure>` once every slug has a data file.
+ * After step 9c we have 21 of 34 structures authored.
  */
 export const STRUCTURES: Partial<Record<Slug, Structure>> = {
     // Primitive
@@ -43,6 +47,15 @@ export const STRUCTURES: Partial<Record<Slug, Structure>> = {
     'hash-set': HASH_SET_DATA,
     'sorted-set': SORTED_SET_DATA,
     'observable-collection': OBSERVABLE_COLLECTION_DATA,
+
+    // Legacy
+    'array-list': ARRAY_LIST_DATA,
+    hashtable: HASHTABLE_DATA,
+    'legacy-stack': LEGACY_STACK_DATA,
+    'legacy-queue': LEGACY_QUEUE_DATA,
+    'legacy-sorted-list': LEGACY_SORTED_LIST_DATA,
+    'bit-array': BIT_ARRAY_DATA,
+    'string-collection': STRING_COLLECTION_DATA,
 } as const;
 
 export function getStructure(slug: Slug): Structure | undefined {
