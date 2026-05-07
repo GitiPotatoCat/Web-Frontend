@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Forte Open Graph card — 1200×630 SVG.
+
+  Design layers, bottom to top:
+    1. Deep background gradient (near-black → indigo-deep)
+    2. Indigo radial glow centered behind the title area
+    3. Violet radial glow anchoring the lower-right
+    4. Faded blueprint grid texture
+    5. Mark + "FORTE" identifier (top-left)
+    6. "Forte." display title with luminous gradient + glow filter
+    7. Italic serif tagline below
+    8. Namespace dot column (right side)
+    9. Mono meta line + URL hint (bottom)
+    10. Gradient hairline (bottom edge)
+
+  Uses Lora as the serif italic family — Forte's design system targets
+  Fraunces, but Lora is the closest open-source fallback that ships
+  with most platforms. If the embed environment loads Google Fonts,
+  Fraunces takes over via the font stack.
+
+  ⚠ Note on Open Graph: most social platforms (Twitter, Slack, Discord,
+  LinkedIn) require a raster image (PNG/JPG) for og:image — they do
+  not render SVG previews reliably. Use the PNG version for og:image
+  and treat this SVG as the editable source.
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 1200 630"
+    width="1200" height="630"
+    role="img" aria-label="Forte — the C# reference, played in full">
+
+    <title>Forte — the C# reference, played in full</title>
+
+    <defs>
+        <!-- Background: near-black to deep indigo -->
+        <linearGradient id="bg-base" x1="0" y1="0" x2="1" y2="0.6">
+            <stop offset="0%" stop-color="#0F0E1E" />
+            <stop offset="100%" stop-color="#181630" />
+        </linearGradient>
+
+        <!-- Indigo glow centered behind where the title sits -->
+        <radialGradient id="glow-indigo" cx="32%" cy="55%" r="75%">
+            <stop offset="0%" stop-color="#6366F1" stop-opacity="0.65" />
+            <stop offset="60%" stop-color="#6366F1" stop-opacity="0.18" />
+            <stop offset="100%" stop-color="#6366F1" stop-opacity="0" />
+        </radialGradient>
+
+        <!-- Violet glow anchoring the lower-right -->
+        <radialGradient id="glow-violet" cx="95%" cy="95%" r="60%">
+            <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0.50" />
+            <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0" />
+        </radialGradient>
+
+        <!-- Title gradient: bright white → luminous violet -->
+        <linearGradient id="title-grad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#FFFFFF" />
+            <stop offset="100%" stop-color="#D2C3FF" />
+        </linearGradient>
+
+        <!-- Bottom hairline gradient -->
+        <linearGradient id="hairline-grad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#6366F1" />
+            <stop offset="100%" stop-color="#8B5CF6" />
+        </linearGradient>
+
+        <!-- Per-dot soft glows (one for each namespace tint) -->
+        <radialGradient id="dot-glow-primitive" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#7CA9FC" stop-opacity="0.45" />
+            <stop offset="100%" stop-color="#7CA9FC" stop-opacity="0" />
+        </radialGradient>
+        <radialGradient id="dot-glow-generic" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#A78BFA" stop-opacity="0.45" />
+            <stop offset="100%" stop-color="#A78BFA" stop-opacity="0" />
+        </radialGradient>
+        <radialGradient id="dot-glow-legacy" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#FBBF59" stop-opacity="0.45" />
+            <stop offset="100%" stop-color="#FBBF59" stop-opacity="0" />
+        </radialGradient>
+        <radialGradient id="dot-glow-concurrent" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#6EE7B7" stop-opacity="0.45" />
+            <stop offset="100%" stop-color="#6EE7B7" stop-opacity="0" />
+        </radialGradient>
+        <radialGradient id="dot-glow-immutable" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#F472B6" stop-opacity="0.45" />
+            <stop offset="100%" stop-color="#F472B6" stop-opacity="0" />
+        </radialGradient>
+
+        <!-- Title glow filter: blurs the source then composites it as a halo -->
+        <filter id="title-glow" x="-15%" y="-30%" width="130%" height="160%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="14" result="blur" />
+            <feComponentTransfer in="blur" result="halo">
+                <feFuncA type="linear" slope="0.85" />
+            </feComponentTransfer>
+            <feMerge>
+                <feMergeNode in="halo" />
+                <feMergeNode in="SourceGraphic" />
+            </feMerge>
+        </filter>
+
+        <!-- Blueprint grid pattern: 48×48 cells with 1px white-low-alpha lines -->
+        <pattern id="grid-pattern" x="0" y="0" width="48" height="48" patternUnits="userSpaceOnUse">
+            <path d="M 48 0 L 0 0 0 48" fill="none" stroke="#FFFFFF" stroke-opacity="0.10"
+                stroke-width="1" />
+        </pattern>
+
+        <!-- Radial mask that fades the grid toward the corners -->
+        <radialGradient id="grid-fade" cx="50%" cy="50%" r="62%">
+            <stop offset="0%" stop-color="#FFFFFF" stop-opacity="1" />
+            <stop offset="80%" stop-color="#FFFFFF" stop-opacity="0.3" />
+            <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+        </radialGradient>
+        <mask id="grid-mask">
+            <rect x="0" y="0" width="1200" height="630" fill="url(#grid-fade)" />
+        </mask>
+    </defs>
+
+    <!-- =================================================================== -->
+    <!-- Background layers                                                    -->
+    <!-- =================================================================== -->
+
+    <rect x="0" y="0" width="1200" height="630" fill="url(#bg-base)" />
+    <rect x="0" y="0" width="1200" height="630" fill="url(#glow-indigo)" />
+    <rect x="0" y="0" width="1200" height="630" fill="url(#glow-violet)" />
+
+    <!-- Faded blueprint grid -->
+    <g mask="url(#grid-mask)">
+        <rect x="0" y="0" width="1200" height="630" fill="url(#grid-pattern)" />
+    </g>
+
+    <!-- =================================================================== -->
+    <!-- Top-left brand identifier: small mark + FORTE wordmark               -->
+    <!-- =================================================================== -->
+
+    <g transform="translate(90, 90)">
+        <!-- Inline F mark, scaled down -->
+        <g transform="scale(0.105)">
+            <!-- Mark background — semi-transparent so it sits on the gradient -->
+            <rect x="0" y="0" width="512" height="512" rx="112" fill="#FFFFFF" fill-opacity="0.05" />
+            <g transform="translate(113, 113)" fill="#F5F4FF">
+                <rect x="0" y="0" width="51" height="286" rx="18" />
+                <rect x="0" y="0" width="223" height="46" rx="16" />
+                <rect x="0" y="120" width="166" height="46" rx="16" />
+                <circle cx="200" cy="266" r="20" fill="#FFFFFF" />
+            </g>
+        </g>
+
+        <!-- "FORTE" in tracked sans -->
+        <text x="78" y="40"
+            font-family="Inter, 'Helvetica Neue', Arial, sans-serif"
+            font-size="22" font-weight="700"
+            letter-spacing="4"
+            fill="#F5F4FF">FORTE</text>
+    </g>
+
+    <!-- =================================================================== -->
+    <!-- Display title: italic serif "Forte." with gradient fill and glow     -->
+    <!-- =================================================================== -->
+
+    <text x="80" y="340"
+        font-family="Fraunces, Lora, 'Times New Roman', Georgia, serif"
+        font-size="180"
+        font-style="italic"
+        font-weight="500"
+        fill="url(#title-grad)"
+        filter="url(#title-glow)">Forte.</text>
+
+    <!-- =================================================================== -->
+    <!-- Tagline (italic serif)                                               -->
+    <!-- =================================================================== -->
+
+    <text x="90" y="408"
+        font-family="Fraunces, Lora, 'Times New Roman', Georgia, serif"
+        font-size="34"
+        font-style="italic"
+        font-weight="400"
+        fill="#E1DEF5">the C# reference, played in full.</text>
+
+    <!-- =================================================================== -->
+    <!-- Right-side namespace dots — visual key                               -->
+    <!-- =================================================================== -->
+
+    <g font-family="'JetBrains Mono', 'Courier New', monospace"
+        font-size="14"
+        fill="#BEBCDC">
+
+        <!-- Array · Span — primitive blue -->
+        <g transform="translate(945, 200)">
+            <circle cx="0" cy="0" r="22" fill="url(#dot-glow-primitive)" />
+            <circle cx="0" cy="0" r="7" fill="#7CA9FC" />
+            <text x="20" y="5">Array · Span</text>
+        </g>
+
+        <!-- Generic — violet -->
+        <g transform="translate(945, 256)">
+            <circle cx="0" cy="0" r="22" fill="url(#dot-glow-generic)" />
+            <circle cx="0" cy="0" r="7" fill="#A78BFA" />
+            <text x="20" y="5">Generic</text>
+        </g>
+
+        <!-- Legacy — amber -->
+        <g transform="translate(945, 312)">
+            <circle cx="0" cy="0" r="22" fill="url(#dot-glow-legacy)" />
+            <circle cx="0" cy="0" r="7" fill="#FBBF59" />
+            <text x="20" y="5">Legacy</text>
+        </g>
+
+        <!-- Concurrent — emerald -->
+        <g transform="translate(945, 368)">
+            <circle cx="0" cy="0" r="22" fill="url(#dot-glow-concurrent)" />
+            <circle cx="0" cy="0" r="7" fill="#6EE7B7" />
+            <text x="20" y="5">Concurrent</text>
+        </g>
+
+        <!-- Immutable — pink -->
+        <g transform="translate(945, 424)">
+            <circle cx="0" cy="0" r="22" fill="url(#dot-glow-immutable)" />
+            <circle cx="0" cy="0" r="7" fill="#F472B6" />
+            <text x="20" y="5">Immutable</text>
+        </g>
+    </g>
+
+    <!-- =================================================================== -->
+    <!-- Bottom row: meta line + URL                                          -->
+    <!-- =================================================================== -->
+
+    <text x="90" y="552"
+        font-family="'JetBrains Mono', 'Courier New', monospace"
+        font-size="16"
+        fill="#A09EBE"
+        letter-spacing="0.5">34 STRUCTURES · 5 NAMESPACES · .NET 10 / C# 14</text>
+
+    <text x="1110" y="552"
+        font-family="'JetBrains Mono', 'Courier New', monospace"
+        font-size="16"
+        fill="#B4B2D2"
+        text-anchor="end">forte.dev</text>
+
+    <!-- =================================================================== -->
+    <!-- Bottom gradient hairline                                             -->
+    <!-- =================================================================== -->
+
+    <rect x="0" y="627" width="1200" height="3" fill="url(#hairline-grad)" />
+</svg>

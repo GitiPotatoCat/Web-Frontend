@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Forte brand mark — 512×512 SVG.
+
+  A geometric "F" with the accent-dot punctuation, set on the locked
+  indigo→violet brand gradient. Designed to scale cleanly from favicon
+  (32px) up to Apple touch icon (180px) and beyond. All shapes are
+  vector primitives — rounded rectangles for the F, an ellipse for the
+  accent dot.
+
+  The mark is a square so it works as an icon at any platform.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Forte">
+    <title>Forte</title>
+
+    <defs>
+        <!-- Brand gradient: indigo → violet, top-left to bottom-right -->
+        <linearGradient id="forte-bg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#6366F1" />
+            <stop offset="100%" stop-color="#8B5CF6" />
+        </linearGradient>
+
+        <!-- Soft radial glow in upper-left for depth -->
+        <radialGradient id="forte-highlight" cx="32%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.30" />
+            <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+        </radialGradient>
+
+        <!-- Vignette in the lower-right for depth -->
+        <radialGradient id="forte-vignette" cx="85%" cy="90%" r="90%">
+            <stop offset="0%" stop-color="#141232" stop-opacity="0.45" />
+            <stop offset="100%" stop-color="#141232" stop-opacity="0" />
+        </radialGradient>
+
+        <!-- Drop shadow filter for the F glyph -->
+        <filter id="forte-shadow" x="-10%" y="-10%" width="120%" height="120%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="8" />
+            <feOffset dx="0" dy="6" />
+            <feComponentTransfer>
+                <feFuncA type="linear" slope="0.35" />
+            </feComponentTransfer>
+            <feMerge>
+                <feMergeNode />
+                <feMergeNode in="SourceGraphic" />
+            </feMerge>
+        </filter>
+    </defs>
+
+    <!-- Rounded-square clip so the mark works as an app icon -->
+    <clipPath id="forte-clip">
+        <rect x="0" y="0" width="512" height="512" rx="112" ry="112" />
+    </clipPath>
+
+    <g clip-path="url(#forte-clip)">
+        <!-- Background gradient -->
+        <rect x="0" y="0" width="512" height="512" fill="url(#forte-bg)" />
+
+        <!-- Highlight + vignette layered on top -->
+        <rect x="0" y="0" width="512" height="512" fill="url(#forte-highlight)" />
+        <rect x="0" y="0" width="512" height="512" fill="url(#forte-vignette)" />
+
+        <!--
+      The geometric F glyph. Calibrated for visual balance:
+        - stem width:  18% of glyph size
+        - bar height:  16% of glyph size
+        - top bar:     78% wide
+        - middle bar:  58% wide
+        - accent dot: 14% diameter, sits below-right
+
+      Glyph dimensions: 286×286 (0.56 × 512), centered with a slight
+      optical offset to compensate for the F's left-heavy weight.
+    -->
+        <g transform="translate(113, 113)" fill="#F5F4FF" filter="url(#forte-shadow)">
+            <!-- Vertical stem: 51 × 286, rounded -->
+            <rect x="0" y="0" width="51" height="286" rx="18" ry="18" />
+
+            <!-- Top horizontal bar: 223 × 46, rounded -->
+            <rect x="0" y="0" width="223" height="46" rx="16" ry="16" />
+
+            <!-- Middle horizontal bar: 166 × 46, rounded -->
+            <rect x="0" y="120" width="166" height="46" rx="16" ry="16" />
+
+            <!-- Accent dot: 40 diameter -->
+            <circle cx="200" cy="266" r="20" fill="#FFFFFF" />
+        </g>
+    </g>
+</svg>
