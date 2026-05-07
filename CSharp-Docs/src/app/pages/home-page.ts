@@ -1,16 +1,28 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { NAMESPACES } from '../data/namespaces';
+import { listStructuresIn } from '../data/structures';
 
 /**
- * Step-2 placeholder. The real home page (hero, namespace decks, featured
- * structures) is built in step 4 once we have the data model. Right now it
- * exists so the router has somewhere to render and we can prove the route
- * transition fires on navigation.
+ * The home page. Visual peak is the gradient hero — a Fraunces italic
+ * headline and a one-paragraph mission statement. Below it, a five-tile
+ * namespace deck. Clicking a tile takes the user to that namespace's
+ * landing (built later) — for step 4 we just route to the first authored
+ * structure in that namespace as a placeholder behaviour.
  */
 @Component({
     selector: 'app-home-page',
     standalone: true,
+    imports: [RouterLink],
     templateUrl: './home-page.html',
     styleUrl: './home-page.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomePageComponent { }
+export class HomePageComponent {
+    protected readonly namespaces = NAMESPACES.map(n => ({
+        ...n,
+        count: listStructuresIn(n.id).length,
+        /** First authored structure in this namespace; falls back to home. */
+        firstSlug: listStructuresIn(n.id)[0]?.slug,
+    }));
+}

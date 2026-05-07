@@ -1,0 +1,33 @@
+<section class="home">
+    <header class="home-hero">
+        <p class="eyebrow">Forte · the C# reference</p>
+        <h1 class="home-title fr-display-xl text-grad-brand">
+            Played in full.
+        </h1>
+        <p class="home-lead">
+            A topic-first reference for every data structure in the .NET 10 BCL —
+            written from scratch, distilled from Microsoft Learn, designed to be
+            read.
+        </p>
+    </header>
+
+    <section class="home-decks" aria-label="Namespaces">
+        @for (ns of namespaces; track ns.id) {
+
+        <a class="deck" [attr.data-ns]="ns.id" [routerLink]="ns.firstSlug ? ['/s', ns.firstSlug] : ['/']">
+            <span class="deck-icon" aria-hidden="true">
+                <img [src]="ns.iconPath" alt="" width="28" height="28" />
+            </span>
+            <div class="deck-text">
+                <h3 class="deck-title">{{ ns.label }}</h3>
+                <p class="deck-meta">{{ ns.fullName }}</p>
+                <p class="deck-desc">{{ ns.description }}</p>
+            </div>
+            <span class="deck-count">
+                <span class="deck-count-num">{{ ns.count }}</span>
+                <span class="deck-count-label">authored</span>
+            </span>
+        </a>
+        }
+    </section>
+</section>

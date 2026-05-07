@@ -1,11 +1,40 @@
 import { Routes } from '@angular/router';
+import { inject } from '@angular/core';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
+
+import type { Slug } from './data/slugs';
+import { getStructure } from './data/structures';
 
 /**
- * Top-level routes. We keep this surface deliberately tiny in step 2 — only
- * the home placeholder. Namespace landings and structure pages are added in
- * later steps. Each route attaches a `data.animation` key so the route-
- * transition trigger can distinguish them.
+ * Resolver for /s/:slug. Looks up the slug in the registry and:
+ *
+ *   • returns { structure: Structure } on hit — Angular passes it through
+ *     to the component as a `structure` data field (and via component
+ *     input binding, as the `structure` input).
+ *
+ *   • redirects to /404 on miss, preserving the URL the user typed in
+ *     the address bar so they can correct it.
+ *
+ * Defined inline as a function so we don't need a separate file.
  */
+function structureResolver(route: ActivatedRouteSnapshot) {
+  const slug = route.paramMap.get('slug') as Slug | null;
+  const router = inject(Router);
+
+  if (!slug) {
+    router.navigate(['/404']);
+    return null;
+  }
+
+  const structure = getStructure(slug);
+  if (!structure) {
+    router.navigate(['/404']);
+    return null;
+  }
+
+  return structure;
+}
+
 export const routes: Routes = [
   {
     path: '',
@@ -16,7 +45,22 @@ export const routes: Routes = [
       ),
     data: { animation: 'home', title: 'Forte — the C# reference' },
   },
-
-  // Catch-all → home for now. Step 8 swaps this for a real 404.
-  { path: '**', redirectTo: '' },
+  {
+    path: 's/:slug',
+    loadComponent: () =>
+      import('./pages/structure-page').then(
+        m => m.StructurePageComponent,
+      ),
+    resolve: { structure: structureResolver },
+    data: { animation: 'structure' },
+  },
+  {
+    path: '404',
+    loadComponent: () =>
+      import('./pages/not-found-page').then(
+        m => m.NotFoundPageComponent,
+      ),
+    data: { animation: '404', title: 'Forte — Not found' },
+  },
+  { path: '**', redirectTo: '/404' },
 ];

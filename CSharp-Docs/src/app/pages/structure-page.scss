@@ -1,0 +1,114 @@
+:host {
+    display: block;
+    padding: var(--space-10) var(--space-6) var(--space-16);
+}
+
+.structure {
+    max-width: var(--content-max);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+}
+
+// ---- Metric trio --------------------------------------------------------
+
+.metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+}
+
+@media (max-width: 640px) {
+    .metrics {
+        grid-template-columns: 1fr;
+    }
+}
+
+// ---- When to use prose --------------------------------------------------
+
+.when-to-use {
+    margin: 0;
+    font: 300 italic 16px / 1.7 'Fraunces', Georgia, serif;
+    font-variation-settings: 'opsz' 24, 'SOFT' 30;
+    color: var(--fg-muted);
+    border-left: 3px solid var(--c-brand);
+    padding-left: var(--space-5);
+    max-width: 64ch;
+}
+
+// ---- Examples ----------------------------------------------------------
+
+.examples {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+}
+
+// ---- Property / Method table ------------------------------------------
+
+.prop-table-wrap {
+    overflow-x: auto;
+    border: 0.5px solid var(--border);
+    border-radius: var(--r-lg);
+    background: var(--bg-surface);
+}
+
+.prop-table {
+    width: 100%;
+    border-collapse: collapse;
+    font: var(--font-body-sm);
+}
+
+.prop-table th {
+    text-align: left;
+    padding: 10px var(--space-4);
+    font: var(--font-mono-meta);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+    background: var(--bg-raised);
+    border-bottom: 0.5px solid var(--border);
+    white-space: nowrap;
+}
+
+.prop-table td {
+    padding: 12px var(--space-4);
+    vertical-align: top;
+    border-bottom: 0.5px solid var(--border-soft);
+}
+
+.prop-table tr:last-child td {
+    border-bottom: 0;
+}
+
+.prop-name {
+    font: var(--font-code-sm);
+    color: var(--fg-primary);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.prop-type {
+    font: var(--font-code-sm);
+    color: var(--c-brand);
+    white-space: nowrap;
+}
+
+.prop-sig {
+    font: var(--font-code-sm);
+    color: var(--fg-muted);
+    white-space: nowrap;
+}
+
+.prop-cost {
+    font: var(--font-code-sm);
+    color: var(--fg-primary);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.prop-desc {
+    color: var(--fg-muted);
+    min-width: 24ch;
+}
