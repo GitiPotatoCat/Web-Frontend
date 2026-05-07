@@ -4,7 +4,7 @@
 }
 
 .home {
-    max-width: var(--content-max);
+    max-width: var(--content-max); // was: same; just confirming explicit
     margin: 0 auto;
 }
 

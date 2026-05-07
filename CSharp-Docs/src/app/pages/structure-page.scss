@@ -3,15 +3,38 @@
     padding: var(--space-10) var(--space-6) var(--space-16);
 }
 
-.structure {
-    max-width: var(--content-max);
+// ---- Layout ------------------------------------------------------------
+// Two-column: main content + right rail. Wraps to single column below
+// the rail breakpoint (set in PageTocComponent's media query at 1100px).
+
+.page {
+    max-width: var(--layout-max);
     margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, var(--content-max)) var(--rail-w);
+    gap: var(--space-12);
+    align-items: start;
+}
+
+@media (max-width: 1100px) {
+    .page {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.content {
     display: flex;
     flex-direction: column;
     gap: var(--space-12);
+    min-width: 0;
 }
 
-// ---- Metric trio --------------------------------------------------------
+.rail {
+    // PageTocComponent's :host already does sticky positioning. 
+    transition: none;
+}
+
+// ---- Metric trio ----------------------------------------------------------
 
 .metrics {
     display: grid;
@@ -25,7 +48,7 @@
     }
 }
 
-// ---- When to use prose --------------------------------------------------
+// ---- When-to-use prose ----------------------------------------------------
 
 .when-to-use {
     margin: 0;
@@ -37,7 +60,7 @@
     max-width: 64ch;
 }
 
-// ---- Examples ----------------------------------------------------------
+// ---- Examples ------------------------------------------------------------
 
 .examples {
     display: flex;
@@ -45,7 +68,7 @@
     gap: var(--space-5);
 }
 
-// ---- Property / Method table ------------------------------------------
+// ---- Property / Method table --------------------------------------------
 
 .prop-table-wrap {
     overflow-x: auto;

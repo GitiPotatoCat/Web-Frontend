@@ -1,0 +1,22 @@
+<aside class="toc" aria-label="On this page">
+    <p class="toc-heading eyebrow">{{ heading() }}</p>
+
+    <ul class="toc-list" #list role="list">
+        <!-- Animated indicator bar — slides between active rows. -->
+        <span class="toc-indicator" aria-hidden="true" [style.top.px]="indicatorTop()"
+            [style.height.px]="indicatorHeight()">
+        </span>
+
+        @for (s of sections(); track s.id) {
+        <li #item class="toc-item" [class.is-active]="activeId() === s.id" [attr.data-id]="s.id">
+
+            <a class="toc-link" [href]="'#' + s.id" (click)="scrollTo(s.id, $event)">
+                @if (s.eyebrow) {
+                <span class="toc-eyebrow">{{ s.eyebrow }}</span>
+                }
+                <span class="toc-label">{{ s.label }}</span>
+            </a>
+        </li>
+        }
+    </ul>
+</aside>

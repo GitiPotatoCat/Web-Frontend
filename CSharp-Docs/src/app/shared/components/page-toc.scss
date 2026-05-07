@@ -1,0 +1,114 @@
+:host {
+    display: block;
+    position: sticky;
+    top: calc(var(--header-h) + var(--space-6));
+    align-self: start; // crucial — stops sticky from stretching
+    width: var(--rail-w);
+    flex: none;
+}
+
+.toc {
+    position: relative;
+    padding: var(--space-3) 0 var(--space-3) var(--space-4);
+    border-left: 0.5px solid var(--border);
+    max-height: calc(100vh - var(--header-h) - var(--space-12));
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
+
+.toc:hover {
+    scrollbar-color: var(--border) transparent;
+}
+
+.toc-heading {
+    margin: 0 0 var(--space-3);
+    letter-spacing: 0.12em;
+}
+
+.toc-list {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+// ---- The indicator bar ----------------------------------------------------
+// Positioned absolutely against the list. Translates between row tops as
+// the active id changes, with a soft cubic ease.
+.toc-indicator {
+    position: absolute;
+    left: calc(var(--space-4) * -1 - 1px);
+    width: 2px;
+    background: var(--grad-brand);
+    border-radius: var(--r-pill);
+    transition:
+        top var(--dur-base) var(--ease-emphasis),
+        height var(--dur-base) var(--ease-emphasis);
+}
+
+// ---- Items ---------------------------------------------------------------
+
+.toc-item {
+    display: block;
+}
+
+.toc-link {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: 6px 0 6px var(--space-3);
+    font: var(--font-body-sm);
+    color: var(--fg-subtle);
+    text-decoration: none;
+    border-radius: 0 var(--r-sm) var(--r-sm) 0;
+    transition:
+        color var(--dur-fast) var(--ease-standard),
+        background var(--dur-fast) var(--ease-standard);
+}
+
+.toc-link:hover {
+    color: var(--fg-primary);
+    background: var(--bg-raised);
+}
+
+.toc-eyebrow {
+    font: var(--font-mono-meta);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+}
+
+.toc-label {
+    font-weight: 400;
+    line-height: 1.4;
+    color: inherit;
+}
+
+// ---- Active row ----------------------------------------------------------
+
+.toc-item.is-active .toc-link {
+    color: var(--c-brand);
+    background: var(--c-brand-bg);
+}
+
+.toc-item.is-active .toc-eyebrow {
+    color: var(--c-brand-soft);
+}
+
+.toc-item.is-active .toc-label {
+    font-weight: 500;
+}
+
+// ---- Hide on narrow viewports --------------------------------------------
+// Below 1100px the right rail crowds the content column. We hide it; the
+// header's command palette is the navigation backstop on small screens.
+
+@media (max-width: 1100px) {
+    :host {
+        display: none;
+    }
+}

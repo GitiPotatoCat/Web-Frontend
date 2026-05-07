@@ -1,112 +1,106 @@
-<article class="structure" [@staggerIn]="structure().slug">
+<div class="page" [@staggerIn]="structure().slug">
+    <article class="content">
 
-    <forte-hero-block class="stagger" [name]="structure().name" [namespace]="structure().namespace"
-        [badges]="structure().badges" [lead]="structure().lead" />
+        <forte-hero-block class="stagger" [name]="structure().name" [namespace]="structure().namespace"
+            [badges]="structure().badges" [lead]="structure().lead" />
 
-    <!-- Metrics --------------------------------------------------------- -->
-    <section class="stagger metrics">
-        @for (m of structure().metrics; track m.label) {
-        <forte-metric-card [metric]="m" />
-        }
-    </section>
-
-    <!-- When to use ----------------------------------------------------- -->
-    <section class="stagger">
-        <forte-section-title title="When to use" eyebrow="Decision" />
-        <p class="when-to-use">{{ structure().whenToUse }}</p>
-    </section>
-
-    <!-- Optional callout ------------------------------------------------ -->
-    @if (structure().callout; as callout) {
-    <section class="stagger">
-        <forte-callout [data]="callout" />
-    </section>
-    }
-
-    <!-- Optional diagram ------------------------------------------------ -->
-    @if (structure().diagram; as diagram) {
-    <section class="stagger">
-        <forte-section-title title="How it works" eyebrow="Visual" />
-        <forte-diagram [data]="diagram" />
-    </section>
-    }
-
-    <!-- Examples -------------------------------------------------------- -->
-    <section class="stagger">
-        <forte-section-title title="Example" eyebrow="In practice" />
-        <div class="examples">
-            @for (block of structure().examples; track $index) {
-            <forte-code-block [data]="block" />
+        <section id="metrics" class="stagger metrics">
+            @for (m of structure().metrics; track m.label) {
+            <forte-metric-card [metric]="m" />
             }
-        </div>
-    </section>
+        </section>
 
-    <!-- Properties ------------------------------------------------------ -->
-    @if (structure().properties.length) {
-    <section class="stagger">
-        <forte-section-title title="Properties" />
-        <div class="prop-table-wrap">
-            <table class="prop-table">
-                <thead>
-                    <tr>
-                        <th>Property</th>
-                        <th>Type</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (p of structure().properties; track p.name) {
-                    <tr>
-                        <td class="prop-name">{{ p.name }}</td>
-                        <td class="prop-type">{{ p.type }}</td>
-                        <td class="prop-desc">{{ p.description }}</td>
-                    </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </section>
-    }
+        <section id="when-to-use" class="stagger">
+            <forte-section-title title="When to use" eyebrow="Decision" />
+            <p class="when-to-use">{{ structure().whenToUse }}</p>
+        </section>
 
-    <!-- Methods --------------------------------------------------------- -->
-    <section class="stagger">
-        <forte-section-title title="Methods" />
-        <div class="prop-table-wrap">
-            <table class="prop-table">
-                <thead>
-                    <tr>
-                        <th>Method</th>
-                        <th>Signature</th>
-                        <th>Complexity</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (m of structure().methods; track m.name + m.signature) {
-                    <tr>
-                        <td class="prop-name">{{ m.name }}</td>
-                        <td class="prop-sig">{{ m.signature }}</td>
-                        <td class="prop-cost">{{ m.complexity }}</td>
-                    </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </section>
+        @if (structure().callout; as callout) {
+        <section id="callout" class="stagger">
+            <forte-callout [data]="callout" />
+        </section>
+        }
 
-    <!-- Optional comparison -------------------------------------------- -->
-    @if (structure().comparison; as cmp) {
-    <section class="stagger">
-        <forte-section-title [title]="structure().name + ' vs alternatives'" eyebrow="Comparison" />
-        <forte-comparison-table [data]="cmp" />
-    </section>
-    }
+        @if (structure().diagram; as diagram) {
+        <section id="diagram" class="stagger">
+            <forte-section-title title="How it works" eyebrow="Visual" />
+            <forte-diagram [data]="diagram" />
+        </section>
+        }
 
-    <!-- Related --------------------------------------------------------- -->
-    @if (structure().related.length) {
-    <section class="stagger">
-        <forte-section-title title="Related structures" eyebrow="Continue" />
-        <forte-chip-list [chips]="structure().related" />
-    </section>
-    }
+        <section id="examples" class="stagger">
+            <forte-section-title title="Example" eyebrow="In practice" />
+            <div class="examples">
+                @for (block of structure().examples; track $index) {
+                <forte-code-block [data]="block" />
+                }
+            </div>
+        </section>
 
-</article>
+        @if (structure().properties.length) {
+        <section id="properties" class="stagger">
+            <forte-section-title title="Properties" />
+            <div class="prop-table-wrap">
+                <table class="prop-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (p of structure().properties; track p.name) {
+                        <tr>
+                            <td class="prop-name">{{ p.name }}</td>
+                            <td class="prop-type">{{ p.type }}</td>
+                            <td class="prop-desc">{{ p.description }}</td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        }
+
+        <section id="methods" class="stagger">
+            <forte-section-title title="Methods" />
+            <div class="prop-table-wrap">
+                <table class="prop-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Signature</th>
+                            <th>Complexity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (m of structure().methods; track m.name + m.signature) {
+                        <tr>
+                            <td class="prop-name">{{ m.name }}</td>
+                            <td class="prop-sig">{{ m.signature }}</td>
+                            <td class="prop-cost">{{ m.complexity }}</td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        @if (structure().comparison; as cmp) {
+        <section id="comparison" class="stagger">
+            <forte-section-title [title]="structure().name + ' vs alternatives'" eyebrow="Comparison" />
+            <forte-comparison-table [data]="cmp" />
+        </section>
+        }
+
+        @if (structure().related.length) {
+        <section id="related" class="stagger">
+            <forte-section-title title="Related structures" eyebrow="Continue" />
+            <forte-chip-list [chips]="structure().related" />
+        </section>
+        }
+    </article>
+
+    <forte-page-toc class="rail stagger" [sections]="toc()" />
+</div>
