@@ -19,9 +19,16 @@
     margin: 0 auto;
     padding: 0 var(--space-6);
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    // [hamburger] brand search actions — hamburger column collapses to 0 on desktop
+    grid-template-columns: 0 auto 1fr auto;
     align-items: center;
     gap: var(--space-6);
+}
+
+// ---- Mobile menu button — hidden on desktop ----------------------------
+
+.header-menu-btn {
+    display: none;
 }
 
 // ---- Brand --------------------------------------------------------------
@@ -52,7 +59,6 @@
 .brand-name {
     font-size: 22px;
     letter-spacing: -0.02em;
-    // Falls back via .text-grad-brand if background-clip not supported.
 }
 
 // ---- Search trigger -----------------------------------------------------
@@ -153,6 +159,16 @@
 
 @media (max-width: 720px) {
 
+    // Show hamburger; restructure grid to give it a real column.
+    .header-menu-btn {
+        display: inline-grid;
+    }
+
+    .header-inner {
+        grid-template-columns: auto auto 1fr auto;
+        gap: var(--space-3);
+    }
+
     .search-trigger-label,
     .search-trigger-kbd {
         display: none;
@@ -163,10 +179,6 @@
         max-width: none;
         justify-self: end;
         padding: 8px 10px;
-    }
-
-    .header-inner {
-        grid-template-columns: auto 1fr auto;
     }
 }
 

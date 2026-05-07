@@ -1,64 +1,107 @@
 import {
     ChangeDetectionStrategy,
     Component,
+    computed,
     HostBinding,
     HostListener,
+    inject,
     signal,
 } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+
+import { MobileDrawerService } from '../core/mobile-drawer.service';
+import { listStructuresGrouped } from '../data/structures';
 
 /**
- * Floating dock sidenav. Two states:
+ * Floating dock sidenav, registry-backed.
  *
- *   collapsed (default) — 64px wide rail with one icon per namespace.
- *   expanded            — 260px wide; reveals the full nav under each.
+ * Two presentation modes:
  *
- * Expansion triggers:
- *   • mouseenter on the host
- *   • focus inside the host (keyboard navigation)
+ *   Desktop (≥ 720px)
+ *     The dock is sticky and 64px wide collapsed. Hover or focus inside
+ *     expands it to 260px revealing per-structure links underneath each
+ *     namespace icon.
  *
- * The nav structure here is hardcoded for step 2. In step 6 we replace
- * it with a typed registry pulled from src/app/data so it reflects every
- * structure data file.
+ *   Mobile (< 720px)
+ *     The dock becomes a drawer that slides in from the left. Its
+ *     open/close state is controlled by MobileDrawerService — the
+ *     hamburger in the header opens it, tapping a link closes it.
+ *
+ * The presentational logic doesn't differ between modes; only the host's
+ * CSS does (see component.scss). The data and the link rendering are
+ * identical, so we never have two divergent template paths to maintain.
  */
 @Component({
     selector: 'app-sidenav',
     standalone: true,
+    imports: [RouterLink, RouterLinkActive],
     templateUrl: './app-sidenav.html',
     styleUrl: './app-sidenav.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppSidenavComponent {
-    /** Whether the dock is currently expanded. */
-    protected readonly expanded = signal(false);
+    protected readonly drawer = inject(MobileDrawerService);
 
-    /** Whether the user is keyboard-focused inside us — locks expansion open. */
+    /** Hover-driven expansion state on desktop. */
+    protected readonly hoverExpanded = signal(false);
+
+    /** Focus-driven expansion state — locks dock open while keyboard nav is inside. */
     protected readonly focusLocked = signal(false);
 
-    @HostBinding('class.is-expanded')
-    get isExpanded(): boolean {
-        return this.expanded() || this.focusLocked();
-    }
-
-    @HostListener('mouseenter') onEnter(): void { this.expanded.set(true); }
-    @HostListener('mouseleave') onLeave(): void { this.expanded.set(false); }
-    @HostListener('focusin') onFocusIn(): void { this.focusLocked.set(true); }
-    @HostListener('focusout', ['$event']) onFocusOut(e: FocusEvent): void {
-        // Only release when focus leaves the host entirely.
-        const next = e.relatedTarget as Node | null;
-        if (!next || !(e.currentTarget as HTMLElement).contains(next)) {
-            this.focusLocked.set(false);
-        }
-    }
-
     /**
-     * Step-2 nav stub. The five namespace groups, with a flat dummy entry
-     * each so the dock visibly populates. Real routes wire up in step 6.
+     * The dock visibly expanded? Three things can drive this:
+     *   • Hover on desktop
+     *   • Focus inside on desktop
+     *   • Drawer open on mobile (drawer mode is always "expanded" content-wise)
      */
-    protected readonly groups = [
-        { id: 'primitive', label: 'Array · Span', icon: 'ns-primitive', count: 3 },
-        { id: 'generic', label: 'Generic', icon: 'ns-generic', count: 11 },
-        { id: 'legacy', label: 'Legacy', icon: 'ns-legacy', count: 7 },
-        { id: 'concurrent', label: 'Concurrent', icon: 'ns-concurrent', count: 5 },
-        { id: 'immutable', label: 'Immutable', icon: 'ns-immutable', count: 8 },
-    ] as const;
+    protected readonly expanded = computed(
+        () => this.hoverExpanded() || this.focusLocked() || this.drawer.isOpen(),
+    );
+
+    @HostBinding('class.is-expanded')
+    get hostExpanded(): boolean { return this.expanded(); }
+
+    @HostBinding('class.is-drawer-open')
+    get hostDrawerOpen(): boolean { return this.drawer.isOpen(); }
+
+    /** Same data flow used by the home page deck. */
+    protected readonly groups = listStructuresGrouped();
+
+    // ---- Hover / focus expansion (desktop only) -------------------------
+
+    @HostListener('mouseenter')
+    onEnter(): void {
+        if (!this.isMobileViewport()) this.hoverExpanded.set(true);
+    }
+
+    @HostListener('mouseleave')
+    onLeave(): void {
+        this.hoverExpanded.set(false);
+    }
+
+    @HostListener('focusin')
+    onFocusIn(): void {
+        if (!this.isMobileViewport()) this.focusLocked.set(true);
+    }
+
+    @HostListener('focusout', ['$event'])
+    onFocusOut(e: FocusEvent): void {
+        const next = e.relatedTarget as Node | null;
+        const host = e.currentTarget as HTMLElement;
+        if (!next || !host.contains(next)) this.focusLocked.set(false);
+    }
+
+    // ---- Drawer dismissal ----------------------------------------------
+
+    /** Tapping a link closes the drawer on mobile; on desktop this is a no-op. */
+    protected onLinkActivate(): void {
+        if (this.drawer.isOpen()) this.drawer.close();
+    }
+
+    // ---- Utility -------------------------------------------------------
+
+    private isMobileViewport(): boolean {
+        if (typeof window === 'undefined') return false;
+        return window.matchMedia('(max-width: 720px)').matches;
+    }
 }

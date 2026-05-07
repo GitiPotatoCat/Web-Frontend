@@ -8,6 +8,13 @@
     </main>
 </div>
 
-<app-footer /> 
+<app-footer />
+
+<!-- Mobile drawer scrim. Visible only when drawer is open and viewport is mobile. -->
+@if (drawer.isOpen()) 
+{
+    <div class="drawer-scrim" (click)="drawer.close()" aria-hidden="true">
+    </div>
+}
 
 <forte-command-palette />

@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+
 import { CommandPaletteService } from '../core/command-palette.service';
+import { MobileDrawerService } from '../core/mobile-drawer.service';
 import { ThemeService } from '../core/theme.service';
 
 @Component({
@@ -14,6 +16,7 @@ import { ThemeService } from '../core/theme.service';
 export class AppHeaderComponent {
     protected readonly theme = inject(ThemeService);
     protected readonly palette = inject(CommandPaletteService);
+    protected readonly drawer = inject(MobileDrawerService);
 
     protected themeIcon(): string {
         switch (this.theme.resolved()) {
@@ -28,7 +31,6 @@ export class AppHeaderComponent {
     }
 
     cycleTheme(): void { this.theme.cycle(); }
-
-    /** Real implementation now — opens the palette. */
     openCommandPalette(): void { this.palette.open(); }
+    toggleDrawer(): void { this.drawer.toggle(); }
 }

@@ -1,25 +1,54 @@
 <nav class="sidenav-inner glass" aria-label="Namespace navigation">
 
-    <ul class="dock" role="list">
-        @for (g of groups; track g.id) {
-        <li class="dock-item" [attr.data-ns]="g.id">
-            <button type="button" class="dock-btn" [attr.aria-label]="g.label">
-                <span class="dock-icon" aria-hidden="true">
-                    <img [src]="'assets/icons/' + g.icon + '.svg'" alt="" width="22" height="22" />
-                </span>
-                <span class="dock-label">
-                    <span class="dock-label-text">{{ g.label }}</span>
-                    <span class="dock-label-count">{{ g.count }}</span>
-                </span>
-            </button>
+    <div class="dock-scroll">
+        <ul class="dock" role="list">
+            @for (g of groups; track g.namespace.id) {
+            <li class="dock-group" [attr.data-ns]="g.namespace.id">
 
-            <!-- Tooltip shown only when collapsed; CSS handles visibility. -->
-            <span class="dock-tooltip" role="tooltip">{{ g.label }}</span>
-        </li>
-        }
-    </ul>
+                <!-- Group header — namespace icon + label + count -->
+                <div class="dock-head">
+                    <span class="dock-head-icon" aria-hidden="true">
+                        <img [src]="g.namespace.iconPath" alt="" width="22" height="22" />
+                    </span>
+                    <span class="dock-head-label">
+                        <span class="dock-head-text">{{ g.namespace.label }}</span>
+                        <span class="dock-head-count">{{ g.structures.length }}</span>
+                    </span>
 
-    <!-- Bottom mark — purely cosmetic, separates dock from page edge. -->
+                    <!-- Collapsed-state tooltip -->
+                    <span class="dock-head-tooltip" role="tooltip">
+                        {{ g.namespace.label }}
+                        · {{ g.structures.length }}
+                    </span>
+                </div>
+
+                <!-- Structure links — visible only when expanded -->
+                @if (g.structures.length) {
+                <ul class="dock-children" role="list">
+                    @for (s of g.structures; track s.slug) {
+                    <li>
+
+                        <a class="dock-link" [routerLink]="['/s', s.slug]" routerLinkActive="is-active"
+                            (click)="onLinkActivate()">
+                            <span class="dock-link-dot" aria-hidden="true"></span>
+                            <span class="dock-link-name">{{ s.name }}</span>
+                        </a>
+                    </li>
+                    }
+                </ul>
+                } @else {
+                <p class="dock-empty">
+                    <span class="material-symbols-rounded">edit_note</span>
+                    awaiting authoring
+                </p>
+                }
+
+            </li>
+            }
+        </ul>
+    </div>
+
+    <!-- Bottom mark -->
     <div class="dock-foot" aria-hidden="true">
         <span class="dock-foot-rule"></span>
         <span class="dock-foot-mark"></span>

@@ -1,6 +1,14 @@
 <header class="app-header glass-strong" role="banner">
     <div class="header-inner">
 
+        <!-- Mobile hamburger — only visible <720px -->
+        <button type="button" class="icon-btn header-menu-btn" (click)="toggleDrawer()"
+            [attr.aria-expanded]="drawer.isOpen()" aria-label="Open navigation" aria-controls="primary-navigation">
+            <span class="material-symbols-rounded">
+                {{ drawer.isOpen() ? 'close' : 'menu' }}
+            </span>
+        </button>
+
         <!-- Brand ----------------------------------------------------------- -->
         <a class="brand" routerLink="/" aria-label="Forte — home">
             <img class="brand-mark" src="assets/brand/forte-mark.svg" alt="" width="28" height="28" />
@@ -25,8 +33,8 @@
                 <span class="material-symbols-rounded">{{ themeIcon() }}</span>
             </button>
 
-            <button type="button" class="icon-btn" disabled aria-label="Keyboard shortcuts (coming in step 5)"
-                title="Shortcuts arrive in step 5">
+            <button type="button" class="icon-btn" disabled aria-label="Keyboard shortcuts (coming in step 8)"
+                title="Shortcuts arrive in step 8">
                 <span class="material-symbols-rounded">keyboard</span>
             </button>
         </div>

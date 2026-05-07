@@ -8,6 +8,8 @@ import { AppSidenavComponent } from './layout/app-sidenav';
 import { AppFooterComponent } from './layout/app-footer';
 import { CommandPaletteComponent } from './layout/command-palette.component';
 
+import { MobileDrawerService } from './core/mobile-drawer.service';
+
 import { routeTransitionAnimation } from './shared/animations/route-transitions';
 
 
@@ -46,7 +48,9 @@ import { routeTransitionAnimation } from './shared/animations/route-transitions'
     animations: [routeTransitionAnimation], 
     changeDetection: ChangeDetectionStrategy.OnPush, 
 })
-export class App {
+export class App { 
+    protected readonly drawer = inject(MobileDrawerService); 
+    
     protected readonly theme = inject(ThemeService);
 
     cycleTheme(): void {

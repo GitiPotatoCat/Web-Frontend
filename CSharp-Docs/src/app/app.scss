@@ -11,13 +11,33 @@
     width: 100%;
     max-width: var(--layout-max);
     margin: 0 auto;
-    // The header is sticky — leave room for the sidenav alongside.
 }
 
 .app-main {
     position: relative;
     flex: 1 1 auto;
     min-width: 0;
-    // The route-transition animation expects the outlet's parent to be
-    // position: relative — :enter/:leave items are stacked absolutely.
+}
+
+// ---- Mobile drawer scrim --------------------------------------------------
+
+.drawer-scrim {
+    display: none;
+}
+
+@media (max-width: 720px) {
+    .drawer-scrim {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(11, 11, 20, 0.50);
+        backdrop-filter: blur(2px);
+        z-index: calc(var(--z-modal) - 1);
+        cursor: pointer;
+        animation: forte-fade-in 180ms var(--ease-standard);
+    }
+
+    :root[data-theme='dark'] .drawer-scrim {
+        background: rgba(0, 0, 0, 0.62);
+    }
 }

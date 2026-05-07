@@ -59,3 +59,23 @@ export function listStructuresIn(
 ): ReadonlyArray<Structure> {
     return listStructures().filter(s => s.namespace === namespaceId);
 }
+
+
+
+import { NAMESPACES, type NamespaceMeta } from '../namespaces';
+
+/**
+ * Groups every authored structure by its namespace. Returns one entry per
+ * namespace in display order — even namespaces with zero authored
+ * structures are included so the sidenav layout stays stable as content
+ * is added (no jumpy reflow when a fresh group fills in).
+ */
+export function listStructuresGrouped(): ReadonlyArray<{
+    readonly namespace: NamespaceMeta;
+    readonly structures: ReadonlyArray<Structure>;
+}> {
+    return NAMESPACES.map(ns => ({
+        namespace: ns,
+        structures: listStructuresIn(ns.id),
+    }));
+}

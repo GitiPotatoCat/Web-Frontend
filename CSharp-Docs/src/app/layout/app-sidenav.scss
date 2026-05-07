@@ -6,18 +6,13 @@
     width: var(--sidenav-w-collapsed);
     flex: none;
     z-index: var(--z-sidenav);
-    // Width is animated when expanded — the trick is to let the dock
-    // OVERLAY the page on expansion rather than push content. We achieve
-    // that by keeping the host width fixed and growing only .sidenav-inner.
 }
 
 .sidenav-inner {
     height: 100%;
     width: var(--sidenav-w-collapsed);
-    padding: var(--space-4) var(--space-2);
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
     border-top: 0;
     border-right: 0.5px solid var(--border);
     border-bottom: 0;
@@ -33,7 +28,35 @@
     box-shadow: var(--shadow-2);
 }
 
-// ---- Dock list ---------------------------------------------------------
+// ---- Scroll container ---------------------------------------------------
+// The expanded dock can overflow when all 34 structures are listed. We
+// allow vertical scroll inside .dock-scroll, with a soft mask at the top
+// and bottom edges so content fades into nothing instead of hard-cutting.
+
+.dock-scroll {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: var(--space-4) var(--space-2);
+    -webkit-mask-image: linear-gradient(to bottom,
+            transparent 0,
+            black 16px,
+            black calc(100% - 16px),
+            transparent 100%);
+    mask-image: linear-gradient(to bottom,
+            transparent 0,
+            black 16px,
+            black calc(100% - 16px),
+            transparent 100%);
+
+    // Custom scrollbar — invisible until hover, slim and brand-tinted.
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+
+    &:hover {
+        scrollbar-color: var(--border) transparent;
+    }
+}
 
 .dock {
     list-style: none;
@@ -41,130 +64,98 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--space-1);
-    flex: 1 1 auto;
+    gap: var(--space-3);
 }
 
-.dock-item {
+// ---- Group header (always visible — collapsed shows only icon) --------
+
+.dock-group {
     position: relative;
 }
 
-// ---- The button itself --------------------------------------------------
-
-.dock-btn {
-    width: 100%;
+.dock-head {
     display: flex;
     align-items: center;
     gap: var(--space-3);
-    padding: var(--space-3);
-    background: transparent;
-    border: 0;
-    border-radius: var(--r-md);
-    color: var(--fg-muted);
-    cursor: pointer;
-    text-align: left;
-    font: var(--font-label);
-    transition:
-        background var(--dur-fast) var(--ease-standard),
-        color var(--dur-fast) var(--ease-standard);
-
-    &:hover,
-    &:focus-visible {
-        background: var(--bg-raised);
-        color: var(--fg-primary);
-    }
+    padding: var(--space-2) var(--space-3);
+    position: relative;
 }
 
-// Coloured icon — picks up the namespace hue per data-ns attribute.
-.dock-item[data-ns='primitive'] .dock-icon {
-    color: var(--ns-primitive);
-}
-
-.dock-item[data-ns='generic'] .dock-icon {
-    color: var(--ns-generic);
-}
-
-.dock-item[data-ns='legacy'] .dock-icon {
-    color: var(--ns-legacy);
-}
-
-.dock-item[data-ns='concurrent'] .dock-icon {
-    color: var(--ns-concurrent);
-}
-
-.dock-item[data-ns='immutable'] .dock-icon {
-    color: var(--ns-immutable);
-}
-
-.dock-icon {
+.dock-head-icon {
     width: 36px;
     height: 36px;
     display: grid;
     place-items: center;
     border-radius: var(--r-md);
-    background: transparent;
     flex: none;
     transition: background var(--dur-fast) var(--ease-standard);
-
-    // The SVG inside uses currentColor — this is what tints them.
-    img {
-        display: block;
-        filter: none;
-    }
 }
 
-.dock-btn:hover .dock-icon,
-.dock-btn:focus-visible .dock-icon {
-    background: var(--bg-surface);
+.dock-group[data-ns='primitive'] .dock-head-icon {
+    color: var(--ns-primitive);
 }
 
-// ---- Expanding label ---------------------------------------------------
+.dock-group[data-ns='generic'] .dock-head-icon {
+    color: var(--ns-generic);
+}
 
-.dock-label {
+.dock-group[data-ns='legacy'] .dock-head-icon {
+    color: var(--ns-legacy);
+}
+
+.dock-group[data-ns='concurrent'] .dock-head-icon {
+    color: var(--ns-concurrent);
+}
+
+.dock-group[data-ns='immutable'] .dock-head-icon {
+    color: var(--ns-immutable);
+}
+
+.dock-head-label {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: var(--space-2);
     flex: 1 1 auto;
     min-width: 0;
+    font: var(--font-mono-meta);
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
 
-    // Hidden when collapsed — opacity + width transitions feel smoother
-    // than display:none toggles, and they're keyboard-accessible because
-    // `visibility: hidden` is what actually removes them from the focus tree.
+    // hide while collapsed; reveal on expand
     opacity: 0;
     visibility: hidden;
-    white-space: nowrap;
     transition:
-        opacity var(--dur-fast) var(--ease-standard) 0ms,
+        opacity var(--dur-fast) var(--ease-standard),
         visibility 0ms linear var(--dur-fast);
+    white-space: nowrap;
 }
 
-:host(.is-expanded) .dock-label {
+.dock-head-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dock-head-count {
+    padding: 1px 7px;
+    background: var(--bg-raised);
+    color: var(--fg-muted);
+    border-radius: var(--r-pill);
+    font-variant-numeric: tabular-nums;
+}
+
+:host(.is-expanded) .dock-head-label {
     opacity: 1;
     visibility: visible;
-    // When expanding, swap the delays so opacity ramps up after width is gone.
     transition:
         opacity var(--dur-fast) var(--ease-standard) 80ms,
         visibility 0ms linear 0ms;
 }
 
-.dock-label-text {
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+// ---- Tooltip (only when collapsed) ------------------------------------
 
-.dock-label-count {
-    font: var(--font-mono-meta);
-    letter-spacing: 0.04em;
-    color: var(--fg-subtle);
-    padding: 1px 6px;
-    background: var(--bg-raised);
-    border-radius: var(--r-pill);
-}
-
-// ---- Hover tooltip (only when collapsed) -------------------------------
-
-.dock-tooltip {
+.dock-head-tooltip {
     position: absolute;
     top: 50%;
     left: calc(100% + var(--space-2));
@@ -186,22 +177,148 @@
     z-index: var(--z-popover);
 }
 
-// Tooltip on hover, but only while the dock is collapsed.
-:host(:not(.is-expanded)) .dock-item:hover .dock-tooltip,
-:host(:not(.is-expanded)) .dock-item:focus-within .dock-tooltip {
+:host(:not(.is-expanded)) .dock-group:hover .dock-head-tooltip,
+:host(:not(.is-expanded)) .dock-group:focus-within .dock-head-tooltip {
     opacity: 1;
     transform: translateY(-50%) translateX(0);
 }
 
-// ---- Footer mark -------------------------------------------------------
+// ---- Children list (revealed when expanded) ----------------------------
+
+.dock-children {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 var(--space-2);
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+
+    // Hidden while collapsed — accessible by being visually hidden but not
+    // removed from the focus tree, so Tab still flows naturally on expand.
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition:
+        max-height var(--dur-base) var(--ease-emphasis),
+        opacity var(--dur-fast) var(--ease-standard);
+}
+
+:host(.is-expanded) .dock-children {
+    max-height: 800px; // generous; doesn't matter — actual scroll lives in .dock-scroll
+    opacity: 1;
+    transition:
+        max-height var(--dur-base) var(--ease-emphasis),
+        opacity var(--dur-fast) var(--ease-standard) 100ms;
+}
+
+// ---- Individual structure link ----------------------------------------
+
+.dock-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: 6px var(--space-3);
+    font: var(--font-code-sm);
+    color: var(--fg-muted);
+    text-decoration: none;
+    border-radius: var(--r-sm);
+    border-left: 2px solid transparent;
+    margin-left: -2px; // align with namespace icon edge
+    transition:
+        color var(--dur-fast) var(--ease-standard),
+        background var(--dur-fast) var(--ease-standard),
+        border-color var(--dur-fast) var(--ease-standard);
+}
+
+.dock-link:hover {
+    color: var(--fg-primary);
+    background: var(--bg-raised);
+}
+
+.dock-link-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.45;
+    flex: none;
+}
+
+.dock-link-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 400;
+}
+
+// ---- Active route highlight -------------------------------------------
+
+.dock-link.is-active {
+    font-weight: 500;
+}
+
+.dock-link.is-active .dock-link-dot {
+    opacity: 1;
+}
+
+.dock-group[data-ns='primitive'] .dock-link.is-active {
+    color: var(--ns-primitive);
+    background: var(--ns-primitive-bg);
+    border-left-color: var(--ns-primitive);
+}
+
+.dock-group[data-ns='generic'] .dock-link.is-active {
+    color: var(--ns-generic);
+    background: var(--ns-generic-bg);
+    border-left-color: var(--ns-generic);
+}
+
+.dock-group[data-ns='legacy'] .dock-link.is-active {
+    color: var(--ns-legacy);
+    background: var(--ns-legacy-bg);
+    border-left-color: var(--ns-legacy);
+}
+
+.dock-group[data-ns='concurrent'] .dock-link.is-active {
+    color: var(--ns-concurrent);
+    background: var(--ns-concurrent-bg);
+    border-left-color: var(--ns-concurrent);
+}
+
+.dock-group[data-ns='immutable'] .dock-link.is-active {
+    color: var(--ns-immutable);
+    background: var(--ns-immutable-bg);
+    border-left-color: var(--ns-immutable);
+}
+
+// ---- Empty group hint -------------------------------------------------
+
+.dock-empty {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 4px 0 0 var(--space-3);
+    padding: 6px 10px;
+    font: 300 italic 11.5px / 1.4 'Fraunces', Georgia, serif;
+    color: var(--fg-faint);
+    background: var(--bg-raised);
+    border-radius: var(--r-sm);
+
+    .material-symbols-rounded {
+        font-size: 14px;
+    }
+}
+
+// ---- Footer mark ------------------------------------------------------
 
 .dock-foot {
+    flex: none;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: var(--space-2);
     padding: var(--space-3) 0;
-    flex: none;
+    border-top: 0.5px solid var(--border-soft);
 }
 
 .dock-foot-rule {
@@ -233,11 +350,54 @@
     }
 }
 
-// ---- Hide on narrow screens -------------------------------------------
-// We'll add a Material drawer-mode for mobile in step 6. For step 2, we
-// just hide the dock under 720px so the layout doesn't break.
+// ============================================================================
+// Mobile drawer mode
+// ============================================================================
+// At <720px the sticky dock pattern is awkward — there isn't enough screen
+// for it to be useful, but completely hiding it would strand mobile users
+// on whatever page they landed on.
+//
+// Solution: drawer. The host becomes a fixed-position panel that slides in
+// from the left when MobileDrawerService.isOpen is true. The inner panel
+// expands to its full width regardless of hover state, since hover doesn't
+// exist on touch devices.
+
 @media (max-width: 720px) {
     :host {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        height: 100vh;
+        width: 84vw;
+        max-width: 320px;
+        transform: translateX(-100%);
+        transition: transform var(--dur-base) var(--ease-emphasis);
+        z-index: var(--z-modal); // above scrim, above header
+    }
+
+    :host(.is-drawer-open) {
+        transform: translateX(0);
+        box-shadow: var(--shadow-3);
+    }
+
+    .sidenav-inner {
+        width: 100%;
+        background: var(--bg-surface);
+        backdrop-filter: none;
+        border-right: 0.5px solid var(--border);
+    }
+
+    // On mobile the dock is "always expanded" content-wise.
+    .dock-head-label,
+    .dock-children {
+        opacity: 1;
+        visibility: visible;
+        max-height: none;
+    }
+
+    // Tooltip irrelevant in drawer mode.
+    .dock-head-tooltip {
         display: none;
     }
 }
