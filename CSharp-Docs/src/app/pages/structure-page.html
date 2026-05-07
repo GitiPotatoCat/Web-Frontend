@@ -4,10 +4,13 @@
         <forte-hero-block class="stagger" [name]="structure().name" [namespace]="structure().namespace"
             [badges]="structure().badges" [lead]="structure().lead" />
 
-        <section id="metrics" class="stagger metrics">
-            @for (m of structure().metrics; track m.label) {
-            <forte-metric-card [metric]="m" />
-            }
+        <section id="metrics" class="stagger metrics-section">
+            <div>
+                @for (m of structure().metrics; track m.label) 
+                {
+                    <forte-metric-card [metric]="m" />
+                }
+            </div>
         </section>
 
         <section id="when-to-use" class="stagger">

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import type { Metric } from '../../data/types';
+import { ComplexityGraphComponent } from './complexity-graph';
 
 /**
  * The trio of complexity cards under the hero. We render them as a
@@ -14,11 +15,13 @@ import type { Metric } from '../../data/types';
 @Component({
     selector: 'forte-metric-card',
     standalone: true,
+    imports: [ComplexityGraphComponent],
     template: `
     <article class="metric-card">
-      <p class="metric-label eyebrow">{{ metric().label }}</p>
-      <p class="metric-value">{{ metric().value }}</p>
-      <p class="metric-note">{{ metric().note }}</p>
+        <p class="metric-label eyebrow">{{ metric().label }}</p>
+        <p class="metric-value">{{ metric().value }}</p>
+        <forte-complexity-graph [complexity]="metric().value" />
+        <p class="metric-note">{{ metric().note }}</p>
     </article>
   `,
     styles: [`

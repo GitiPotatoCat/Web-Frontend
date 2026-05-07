@@ -157,3 +157,36 @@
         margin-top: 4px;
     }
 }
+
+
+
+// ---- Scroll-driven hero accent (Chromium / WebKit) -----------------------
+// `animation-timeline: scroll(root)` ties the animation's progress to page
+// scroll position, NOT to time. Browsers without support ignore the
+// declaration entirely — graceful degrade to no parallax.
+
+@supports (animation-timeline: scroll()) {
+    .home-hero {
+        animation: home-hero-drift linear both;
+        animation-timeline: scroll(root);
+        animation-range: 0 60vh;
+    }
+
+    @keyframes home-hero-drift {
+        from {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        to {
+            transform: translateY(-12px);
+            opacity: 0.85;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .home-hero {
+            animation: none;
+        }
+    }
+}

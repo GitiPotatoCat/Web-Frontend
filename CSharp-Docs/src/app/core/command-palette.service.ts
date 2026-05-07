@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal, afterNextRender } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class CommandPaletteService {
@@ -26,6 +26,16 @@ export class CommandPaletteService {
                 this.close();
             }
         });
+
+
+        afterNextRender(() => {
+            document.addEventListener('keydown', (e: KeyboardEvent) => {
+                if (e.key === '?' && !this.editableTarget(e)) {
+                    e.preventDefault();
+                    this.openShortcuts();
+                }
+            });
+        });
     }
 
     open(): void {
@@ -41,9 +51,16 @@ export class CommandPaletteService {
 
     toggle(): void {
         this.isOpen() ? this.close() : this.open();
+    } 
+
+    openShortcuts(): void 
+    {
+        // need to implement logic 
     }
 
-    private editableTarget(e: KeyboardEvent): boolean {
+
+    private editableTarget(e: KeyboardEvent): boolean 
+    {
         const t = e.target as HTMLElement | null;
         if (!t) return false;
         const tag = t.tagName.toLowerCase();

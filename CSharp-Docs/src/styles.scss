@@ -97,3 +97,22 @@ a {
 .material-symbols-rounded.is-filled {
   font-variation-settings: 'FILL' 1, 'wght' 500;
 }
+
+
+// ---- Material dialog overrides (match Forte aesthetic) -------------------
+
+.forte-dialog-panel .mat-mdc-dialog-surface {
+  background: transparent !important;
+  box-shadow: var(--shadow-3) !important;
+  border-radius: var(--r-xl) !important;
+  padding: 0 !important;
+}
+
+.forte-dialog-backdrop {
+  background: rgba(11, 11, 20, 0.5);
+  backdrop-filter: blur(2px);
+}
+
+:root[data-theme='dark'] .forte-dialog-backdrop {
+  background: rgba(0, 0, 0, 0.62);
+}

@@ -1,0 +1,8 @@
+<svg class="cg" [attr.data-shape]="shape()" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true">
+
+    <!-- baseline rule — quiet, drawn first so it sits behind the curve -->
+    <line class="cg-baseline" x1="0" y1="38" x2="100" y2="38" />
+
+    <!-- the actual complexity curve -->
+    <path class="cg-curve" [attr.d]="path()" [style.--cg-len]="pathLength()" fill="none" />
+</svg>
