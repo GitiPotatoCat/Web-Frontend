@@ -47,7 +47,8 @@
                   "maximumError": "16kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all", 
+              "baseHref": "/Web-Frontend/"
             },
             "development": {
               "optimization": false,
