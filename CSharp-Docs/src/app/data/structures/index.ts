@@ -26,8 +26,14 @@ import { LEGACY_SORTED_LIST_DATA } from './legacy-sorted-list.data';
 import { BIT_ARRAY_DATA } from './bit-array.data';
 import { STRING_COLLECTION_DATA } from './string-collection.data';
 
+import { CONCURRENT_DICTIONARY_DATA } from './concurrent-dictionary.data';
+import { CONCURRENT_QUEUE_DATA } from './concurrent-queue.data';
+import { CONCURRENT_STACK_DATA } from './concurrent-stack.data';
+import { CONCURRENT_BAG_DATA } from './concurrent-bag.data';
+import { BLOCKING_COLLECTION_DATA } from './blocking-collection.data';
+
 /**
- * After step 9c we have 21 of 34 structures authored.
+ * After step 9d we have 26 of 34 structures authored.
  */
 export const STRUCTURES: Partial<Record<Slug, Structure>> = {
     // Primitive
@@ -56,6 +62,13 @@ export const STRUCTURES: Partial<Record<Slug, Structure>> = {
     'legacy-sorted-list': LEGACY_SORTED_LIST_DATA,
     'bit-array': BIT_ARRAY_DATA,
     'string-collection': STRING_COLLECTION_DATA,
+
+    // Concurrent
+    'concurrent-dictionary': CONCURRENT_DICTIONARY_DATA,
+    'concurrent-queue': CONCURRENT_QUEUE_DATA,
+    'concurrent-stack': CONCURRENT_STACK_DATA,
+    'concurrent-bag': CONCURRENT_BAG_DATA,
+    'blocking-collection': BLOCKING_COLLECTION_DATA,
 } as const;
 
 export function getStructure(slug: Slug): Structure | undefined {
